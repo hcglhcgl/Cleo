@@ -1,0 +1,7 @@
+thread=1
+ vel=0.4,edgel=0,white=1, log = 1 : ir1 < 0.2
+ vel=0 : ir2 < 0.5
+ vel=0 : ir2 > 0.5
+ vel=2, acc=1.5, edger=0,white=1 : dist = 2
+ vel=2, acc=1.5, edger=0,white=1 : ir1 < 0.2
+ vel=0 : time=0.5
