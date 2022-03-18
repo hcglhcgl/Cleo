@@ -4,5 +4,6 @@
 /home/local/Cam_mission/build/CMakeFiles/rebuild_cache.dir
 /home/local/Cam_mission/build/CMakeFiles/edit_cache.dir
 /home/local/Cam_mission/build/CMakeFiles/mission.dir
+/home/local/Cam_mission/build/CMakeFiles/takevideo.dir
 /home/local/Cam_mission/build/CMakeFiles/install/strip.dir
 /home/local/Cam_mission/build/CMakeFiles/takephoto.dir

@@ -189,6 +189,19 @@ mission/fast:
 .PHONY : mission/fast
 
 #=============================================================================
+# Target rules for targets named takevideo
+
+# Build rule for target.
+takevideo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 takevideo
+.PHONY : takevideo
+
+# fast build rule for target.
+takevideo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/build
+.PHONY : takevideo/fast
+
+#=============================================================================
 # Target rules for targets named takephoto
 
 # Build rule for target.
@@ -200,6 +213,33 @@ takephoto: cmake_check_build_system
 takephoto/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takephoto.dir/build.make CMakeFiles/takephoto.dir/build
 .PHONY : takephoto/fast
+
+AppleDetector.o: AppleDetector.cpp.o
+
+.PHONY : AppleDetector.o
+
+# target to build an object file
+AppleDetector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/AppleDetector.cpp.o
+.PHONY : AppleDetector.cpp.o
+
+AppleDetector.i: AppleDetector.cpp.i
+
+.PHONY : AppleDetector.i
+
+# target to preprocess a source file
+AppleDetector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/AppleDetector.cpp.i
+.PHONY : AppleDetector.cpp.i
+
+AppleDetector.s: AppleDetector.cpp.s
+
+.PHONY : AppleDetector.s
+
+# target to generate assembly for a file
+AppleDetector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/AppleDetector.cpp.s
+.PHONY : AppleDetector.cpp.s
 
 main.o: main.cpp.o
 
@@ -254,6 +294,33 @@ takephoto.s: takephoto.cpp.s
 takephoto.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takephoto.dir/build.make CMakeFiles/takephoto.dir/takephoto.cpp.s
 .PHONY : takephoto.cpp.s
+
+takevideo.o: takevideo.cpp.o
+
+.PHONY : takevideo.o
+
+# target to build an object file
+takevideo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/takevideo.cpp.o
+.PHONY : takevideo.cpp.o
+
+takevideo.i: takevideo.cpp.i
+
+.PHONY : takevideo.i
+
+# target to preprocess a source file
+takevideo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/takevideo.cpp.i
+.PHONY : takevideo.cpp.i
+
+takevideo.s: takevideo.cpp.s
+
+.PHONY : takevideo.s
+
+# target to generate assembly for a file
+takevideo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/takevideo.cpp.s
+.PHONY : takevideo.cpp.s
 
 tcpCase.o: tcpCase.cpp.o
 
@@ -809,12 +876,19 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mission"
 	@echo "... takephoto"
+	@echo "... takevideo"
+	@echo "... AppleDetector.o"
+	@echo "... AppleDetector.i"
+	@echo "... AppleDetector.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... takephoto.o"
 	@echo "... takephoto.i"
 	@echo "... takephoto.s"
+	@echo "... takevideo.o"
+	@echo "... takevideo.i"
+	@echo "... takevideo.s"
 	@echo "... tcpCase.o"
 	@echo "... tcpCase.i"
 	@echo "... tcpCase.s"

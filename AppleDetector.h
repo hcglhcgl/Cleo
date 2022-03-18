@@ -11,6 +11,6 @@ class AppleDetector {
 
 public:
 	AppleDetector();
-	Mat findWhiteApples(string src);
-	Mat findOrangeApples(string src);
+	Mat findWhiteApples(Mat image);
+	Mat findOrangeApples(Mat image);
 };

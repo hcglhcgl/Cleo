@@ -73,6 +73,7 @@ CMAKE_BINARY_DIR = /home/local/Cam_mission/build
 
 # The main recursive "all" target.
 all: CMakeFiles/mission.dir/all
+all: CMakeFiles/takevideo.dir/all
 all: CMakeFiles/takephoto.dir/all
 
 .PHONY : all
@@ -84,6 +85,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/mission.dir/clean
+clean: CMakeFiles/takevideo.dir/clean
 clean: CMakeFiles/takephoto.dir/clean
 
 .PHONY : clean
@@ -114,6 +116,33 @@ mission: CMakeFiles/mission.dir/rule
 CMakeFiles/mission.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mission.dir/build.make CMakeFiles/mission.dir/clean
 .PHONY : CMakeFiles/mission.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/takevideo.dir
+
+# All Build rule for target.
+CMakeFiles/takevideo.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=25,26,27 "Built target takevideo"
+.PHONY : CMakeFiles/takevideo.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/takevideo.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local/Cam_mission/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/takevideo.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local/Cam_mission/build/CMakeFiles 0
+.PHONY : CMakeFiles/takevideo.dir/rule
+
+# Convenience name for target.
+takevideo: CMakeFiles/takevideo.dir/rule
+
+.PHONY : takevideo
+
+# clean rule for target.
+CMakeFiles/takevideo.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/clean
+.PHONY : CMakeFiles/takevideo.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/takephoto.dir
