@@ -1,0 +1,9 @@
+
+#push button after ramp
+
+thread=1
+    vel=0, log=10.0: time=0.02
+    vel=0.4, edgel=0,white=1:  xl>15
+    edger=0: ir2<0.1
+    vel=0.0: time=0.5
+
