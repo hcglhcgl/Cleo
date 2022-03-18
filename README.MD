@@ -13,3 +13,8 @@ SSH folder from Cleo onto personal computer
 
 Unmount Folder "Cleo_files"
 - Terminal: umount Cleo_files
+
+Connectiong to hotspot
+Change your hotspost to this SSID and make the password:
+-SSID "jul"
+-password "12345677"
