@@ -16,7 +16,8 @@ Mat getCirclesMask(Mat gray) {
 	//detect circles in a gray image
 	vector<Vec3f> circles;
 	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 25, 100, 30, 10, 30);
-	HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 25);
+	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 25);
+	HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 50, 90, 30, 20, 80);
 
 	//create mask => used for getting the new hsv image only with the detected circles
 	Mat mask = cv::Mat::zeros(gray.rows, gray.cols, CV_8UC1);
@@ -107,7 +108,7 @@ Mat AppleDetector::findOrangeApples(Mat image) {
 
 	//tresholds for the orange HSV values
 	int lowH = 0;
-	int highH = 25;
+	int highH = 50;
 
 	int lowS = 140;
 	int highS = 255;
@@ -137,5 +138,5 @@ Mat AppleDetector::findOrangeApples(Mat image) {
 	morphologyEx(tresholded, output, MORPH_CLOSE, circleElement, Point(-1, -1), 2);
 
 	//imshow("Display window", output);
-	return mask;
+	return output;
 }
