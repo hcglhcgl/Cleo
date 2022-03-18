@@ -1,0 +1,6 @@
+thread=1
+    vel=0, log=10.0: time=0.02
+    vel=0.4, edgel=0,white=1:  xl>15
+    vel=0.6, tr=0.2: turn=90
+    vel=0.4, edgel=0 : dist=1
+    vel=0.3, edgel=0,white=1:  ir2<0.2
