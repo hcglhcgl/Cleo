@@ -14,7 +14,7 @@ SSH folder from Cleo onto personal computer
 - Create folder (e.g. Cleo_files)
 - Terminal:
 ```bash
-sshfs local@10.209.232.84:/ /home/magnus/Cleo_files/
+sshfs local@192.168.43.38:/ /home/magnus/Cleo_files/
 ```
 
 Unmount Folder "Cleo_files"
