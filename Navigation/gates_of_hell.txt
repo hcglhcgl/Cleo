@@ -1,0 +1,46 @@
+#Navigate gates and regbot. Finish by pushing the button
+
+
+thread=1
+vel=0.4,edgel=0,white=1, log = 1 : xl > 15
+ vel=0.4, tr=0.1 : turn= 90 
+vel=0.4,edgel=0,white=1 : dist = 0.85
+
+vel=0 : ir2 < 0.5
+ vel=0 : ir2 > 0.5
+vel = 0 : time =  1
+
+ vel=0.4, tr=0 : turn= 45
+ vel=0.6 : dist = 1.1
+
+vel=0.4, tr=0 : turn= -70
+vel=0.4 : dist = 0.5, ir1 < 0.25
+ vel=0.4 : dist = 0.2
+
+vel=0.4, tr=0.5 : turn= 10
+vel=0.4, tr=0.4 : turn= 360, ir1 < 0.2
+vel=0.4 : dist = 0.2
+
+vel=0.4, tr=0.5 : turn= 10
+vel=0.4, tr=0.4 : turn= 360, ir1 < 0.2
+vel=0.4 : dist = 0.3
+
+#This is a comment
+
+vel=0 : ir1 < 0.5
+ vel=0 : ir1 > 0.5
+
+vel= 0.4 : lv=1
+
+ vel=0.4, tr=0 : turn= -150 
+
+vel=0.6, edgel=0, white=1 : dist=3
+vel=0.6, edgel=0, white=1 : ir1 < 0.5
+vel=0.6, edgel=0, white=1 : dist=0.25
+
+ vel=0.4, tr=0 : turn= 110
+
+vel=0.6, edgel=0, white=1 : ir2<0.1
+
+
+vel=0.0 : time = 1000
