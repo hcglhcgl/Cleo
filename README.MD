@@ -12,7 +12,7 @@ SSH folder from Cleo onto personal computer
 - Terminal: sshfs local@10.209.232.84:/ /home/magnus/Cleo_files/
 
 Unmount Folder "Cleo_files"
-- Terminal: umount Cleo_files
+- Terminal: sudo umount Cleo_files
 
 ### SSH in Visual Studio Code
 - Open VSC
