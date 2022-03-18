@@ -1,0 +1,16 @@
+#Opens gate of box with hammer and parks in it
+
+
+thread=1
+ vel=0.4,edgel=0,white=1, log = 1 : lv = 0
+ servo=2,pservo=-800:time=1
+ vel=0.4 : dist = 0.4
+ vel=0.4, tr=0 :turn=-90
+ vel=0.4 : dist = 0.55
+ vel=0.4, tr=0 :turn=90
+ vel=0.4 : dist = 1
+ vel=0.6, tr=0 :turn=-180
+ vel=0 : time = 0.1
+ servo=2,pservo=0:time=1
+ vel=0.4, tr=0.4 :turn=180
+ vel=0 : time = 0.1
