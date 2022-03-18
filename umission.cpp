@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 
-
 #include <sys/time.h>
 #include <cstdlib>
 #include "umission.h"
@@ -27,8 +26,7 @@
 #include "ulibpose2pose.h"
 
 
-UMission::UMission(UBridge * regbot/*, UCamera * camera*/)
-{
+UMission::UMission(UBridge * regbot/*, UCamera * camera*/) {
   //cam = camera;
   bridge = regbot;
   threadActive = 100;
@@ -45,15 +43,11 @@ UMission::UMission(UBridge * regbot/*, UCamera * camera*/)
 //   sleep(5);
 }
 
-
-UMission::~UMission()
-{
+UMission::~UMission() {
   printf("Mission class destructor\n");
 }
 
-
-void UMission::run()
-{
+void UMission::run() {
   while (not active and not th1stop)
     usleep(100000);
 //   printf("UMission::run:  active=%d, th1stop=%d\n", active, th1stop);
@@ -62,8 +56,7 @@ void UMission::run()
   printf("UMission::run: mission thread ended\n");
 }
   
-void UMission::printStatus()
-{
+void UMission::printStatus() {
   printf("# ------- Mission ----------\n");
   printf("# active = %d, finished = %d\n", active, finished);
   printf("# mission part=%d, in state=%d\n", mission, missionState);
@@ -73,8 +66,7 @@ void UMission::printStatus()
  * Initializes the communication with the robobot_bridge and the REGBOT.
  * It further initializes a (maximum) number of mission lines 
  * in the REGBOT microprocessor. */
-void UMission::missionInit()
-{ // stop any not-finished mission
+void UMission::missionInit() { // stop any not-finished mission
   bridge->send("robot stop\n");
   // clear old mission
   bridge->send("robot <clear\n");
@@ -120,9 +112,7 @@ void UMission::missionInit()
   bridge->event->clearEvents();
 }
 
-
-void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt)
-{
+void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt) {
   // Calling sendAndActivateSnippet automatically toggles between thread 100 and 101. 
   // Modifies the currently inactive thread and then makes it active. 
   const int MSL = 100;
@@ -177,8 +167,7 @@ void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt)
  * The loop also handles manual override for the gamepad, and resumes
  * when manual control is released.
  * */
-void UMission::runMission()
-{ /// current mission number
+void UMission::runMission() { /// current mission number
   mission = fromMission;
   int missionOld = mission;
   bool regbotStarted = false;
@@ -263,14 +252,17 @@ void UMission::runMission()
           case 1: // running auto mission
             ended = mission_guillotine(missionState);
             break;
-          case 4:
+          case 2:
             ended = mission_seesaw(missionState);
             break;
           case 3:
-            ended = mission3(missionState);
+            ended = mission_parking(missionState);
             break;
-          case 2:
+          case 4:
             ended = mission_racetrack(missionState);
+            break;
+          case 5:
+            ended = mission_circleOfHell(missionState);
             break;
           default:
             // no more missions - end everything
@@ -351,15 +343,8 @@ void UMission::runMission()
   bridge->send("oled 3 finished\n");
 }
 
-
 ////////////////////////////////////////////////////////////
 
-/**
- * Run mission
- * \param state is kept by caller, but is changed here
- *              therefore defined as reference with the '&'.
- *              State will be 0 at first call.
- * \returns true, when finished. */
 bool UMission::mission_guillotine(int & state) {
   bool finished = false;
 
@@ -378,8 +363,8 @@ bool UMission::mission_guillotine(int & state) {
     } break;
 
     case 10: {// first PART - follow white line until
-      snprintf(lines[0], MAX_LEN, "vel=0.4 : dist=1");
-      //snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
+      //snprintf(lines[0], MAX_LEN, "vel=0.4 : dist=1");
+      snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
       //Occupy Robot
       snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
 
@@ -412,23 +397,15 @@ bool UMission::mission_guillotine(int & state) {
       break;
     case 999:
     default:
-      printf("mission 1 ended \n");
-      bridge->send("oled 5 \"mission 1 ended.\"");
+      printf("mission guillotine ended \n");
+      bridge->send("oled 5 \"mission guillotine ended.\"");
       finished = true;
       break;
   }
   return finished;
 }
 
-
-/**
- * Run mission
- * \param state is kept by caller, but is changed here
- *              therefore defined as reference with the '&'.
- *              State will be 0 at first call.
- * \returns true, when finished. */
-bool UMission::mission_seesaw(int & state)
-{
+bool UMission::mission_seesaw(int & state) {
 /*  bool finished = false;
   // First commands to send to robobot in given mission
   // (robot sends event 1 after driving 1 meter)):
@@ -600,36 +577,21 @@ bool UMission::mission_seesaw(int & state)
   return finished;
 }
 
-
-
-/**
- * Run mission
- * \param state is kept by caller, but is changed here
- *              therefore defined as reference with the '&'.
- *              State will be 0 at first call.
- * \returns true, when finished. */
-bool UMission::mission3(int & state)
+bool UMission::mission_parking(int & state)
 {
   bool finished = false;
   switch (state)
   {
     case 999:
     default:
-      printf("mission 3 ended\n");
-      bridge->send("oled 5 mission 3 ended.");
+      printf("mission parking ended\n");
+      bridge->send("oled 5 mission parking ended.");
       finished = true;
       break;
   }
   return finished;
 }
 
-
-/**
- * Run mission
- * \param state is kept by caller, but is changed here
- *              therefore defined as reference with the '&'.
- *              State will be 0 at first call.
- * \returns true, when finished. */
 bool UMission::mission_racetrack(int & state) {
   bool finished = false;
 
@@ -667,17 +629,32 @@ bool UMission::mission_racetrack(int & state) {
 
     case 999:
     default:
-      printf("mission 4 ended\n");
-      bridge->send("oled 5 mission 4 ended.");
+      printf("mission racetrack ended\n");
+      bridge->send("oled 5 mission racetrack ended.");
       finished = true;
       break;
   }
   return finished;
 }
 
-
-void UMission::openLog()
+bool UMission::mission_circleOfHell(int & state)
 {
+  bool finished = false;
+  switch (state)
+  {
+    case 999:
+    default:
+      printf("mission circleOfHell ended\n");
+      bridge->send("oled 5 mission circleOfHell ended.");
+      finished = true;
+      break;
+  }
+  return finished;
+}
+
+////////////////////////////////////////////////////////////
+
+void UMission::openLog() {
   // make logfile
   const int MDL = 32;
   const int MNL = 128;
@@ -703,10 +680,8 @@ void UMission::openLog()
     printf("#UCamera:: Failed to open image logfile\n");
 }
 
-void UMission::closeLog()
-{
-  if (logMission != NULL)
-  {
+void UMission::closeLog() {
+  if (logMission != NULL) {
     fclose(logMission);
     logMission = NULL;
   }

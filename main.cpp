@@ -250,7 +250,7 @@ int main ( int argc,char **argv )
           case 'd':
             if (n > 1)
             {
-              bool d = strtol(&s[1], NULL, 10);
+              //UNUSED: bool d = strtol(&s[1], NULL, 10);
               //cam.arUcos->debugImages = d;
               //printf("# setting flag to save debug images = %d\n", cam.arUcos->debugImages);
             }
@@ -263,8 +263,8 @@ int main ( int argc,char **argv )
             break;
           case 'e':
             {
-              char * p1 = &s[1];
-              int v = strtol(p1, NULL, 0);
+              //UNUSED: char * p1 = &s[1];
+              //UNISED: int v = strtol(p1, NULL, 0);
               //cam.setExposure(v);
             printf("# setting exposure\n");
             //cam.saveImage = true;
@@ -316,7 +316,7 @@ int main ( int argc,char **argv )
             { // read also next parameter
               if (n > 1)
               { // convert string from s[1] to float
-                float v = strtof(&s[1], NULL);
+                //UNUSED: float v = strtof(&s[1], NULL);
                 //printf("# Roll changed from %g to %g deg\n", cam.camRot[0] * 180/ M_PI, v);
                 // set new value in radians
                 //cam.setRoll(v *  M_PI / 180.0);
@@ -327,7 +327,7 @@ int main ( int argc,char **argv )
           { // read also next parameter
             if (n > 1)
             { // convert string from s[1] to float
-              float v = strtof(&s[1], NULL);
+              //UNUSED: float v = strtof(&s[1], NULL);
               //printf("# Tilt changed from %g to %g deg\n", cam.camRot[1] * 180/ M_PI, v);
               // set new value in radians
               //cam.setTilt(v *  M_PI / 180.0);
@@ -338,7 +338,7 @@ int main ( int argc,char **argv )
           { // read also next parameter
             if (n > 1)
             { // convert string from s[1] to float
-              float p = strtof(&s[1], NULL);
+              //UNUSED: float p = strtof(&s[1], NULL);
               //printf("# Pan (Yaw) changed from %g to %g deg\n", cam.camRot[2] * 180/ M_PI, p);
               // set new value in radians
               //cam.setPan(p *  M_PI / 180.0);
@@ -351,10 +351,10 @@ int main ( int argc,char **argv )
           case '3': // set position of camera
             if (n > 1)
             {
-              char * p1 = &s[1];
-              float x = strtof(p1, &p1);
-              float y = strtof(p1, &p1);
-              float z = strtof(p1, &p1);
+              //UNUSED: char * p1 = &s[1];
+              //UNUSED: float x = strtof(p1, &p1);
+              //UNUSED: float y = strtof(p1, &p1);
+              //UNUSED: float z = strtof(p1, &p1);
 //              cam.setPos(x, y, z);
             }
             break;
@@ -367,7 +367,7 @@ int main ( int argc,char **argv )
             printf("#    e V   Set camera exposure to V (1..10000?) (4-1180?)\n");
             printf("#    h    This help\n");
             printf("#    lo xxx  Open log for xxx (pose %d, hbt %d, bridge %d, imu %d\n"
-                   "#               ir %d, motor %d, joy %d, event %d, cam %d, aruco %d, mission %d)\n",
+                   "#               ir %d, motor %d, joy %d, event %d, cam %d, aruco d, mission d)\n",
                    bridge.pose->logIsOpen(), 
                    bridge.info->logIsOpen(),
                    bridge.logIsOpen(), 
@@ -388,7 +388,7 @@ int main ( int argc,char **argv )
             printf("#    s    Status (all)\n");
             //printf("#    t 99 Camera tilt degrees (positive down), is %.1f deg\n", cam.camRot[1] * 180 / M_PI);
             printf("#    2 x y h d    To face destination (x,y,h) at dist d \n");
-            printf("#    3 x y h      Camera position on robot (is %.3f, %.3f, %.3f) [m]\n");
+            //UNUSED: printf("#    3 x y h      Camera position on robot (is %.3f, %.3f, %.3f) [m]\n");
             //       cam.camPos[0],cam.camPos[1],cam.camPos[2]);
             printf("#\n");
             printf("# NB!  Robot may continue to move if this app is stopped with ctrl-C.\n\n");
