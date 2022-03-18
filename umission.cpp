@@ -261,16 +261,16 @@ void UMission::runMission()
         switch(mission)
         {
           case 1: // running auto mission
-            ended = mission1(missionState);
+            ended = mission_guillotine(missionState);
             break;
-          case 2:
-            ended = mission2(missionState);
+          case 4:
+            ended = mission_seesaw(missionState);
             break;
           case 3:
             ended = mission3(missionState);
             break;
-          case 4:
-            ended = mission4(missionState);
+          case 2:
+            ended = mission_racetrack(missionState);
             break;
           default:
             // no more missions - end everything
@@ -360,67 +360,54 @@ void UMission::runMission()
  *              therefore defined as reference with the '&'.
  *              State will be 0 at first call.
  * \returns true, when finished. */
-bool UMission::mission1(int & state)
-{
+bool UMission::mission_guillotine(int & state) {
   bool finished = false;
-  // First commands to send to robobot in given mission
-  // (robot sends event 1 after driving 1 meter)):
-  switch (state)
-  {
-    case 0:
 
-      snprintf(lines[1], MAX_LEN, "vel=0.4,acc=1:dist=0.6");
-      // stop and create an event when arrived at this line
-      snprintf(lines[2], MAX_LEN, "event=1, vel=0");
-      // add a line, so that the robot is occupied until next snippet has arrived
-      snprintf(lines[3], MAX_LEN, ": dist=1");
-      // send the 4 lines to the REGBOT
-      sendAndActivateSnippet(lines, 4);
-
-
+  switch (state) {
+    case 0: {
       // tell the operatior what to do
       printf("# press green to start.\n");
-//       system("espeak \"press green to start\" -ven+f4 -s130 -a5 2>/dev/null &");
       play.say("Press green to start", 90);
       bridge->send("oled 5 press green to start");
       state++;
-      break;
-    case 1:
+    } break;
+
+    case 1: {
       if (bridge->joy->button[BUTTON_GREEN])
         state = 10;
-      break;
-    case 10: // first PART - wait for IR2 then go fwd and turn
-      snprintf(lines[0], MAX_LEN, "vel=0.0 : ir2 < 0.3");
-      // drive straight 0.6m - keep an acceleration limit of 1m/s2 (until changed)
-      snprintf(lines[1], MAX_LEN, "vel=0.4,acc=1:dist=0.6");
-      // stop and create an event when arrived at this line
-      snprintf(lines[2], MAX_LEN, "event=1, vel=0");
-      // add a line, so that the robot is occupied until next snippet has arrived
-      snprintf(lines[3], MAX_LEN, ": dist=1");
-      // send the 4 lines to the REGBOT
-      sendAndActivateSnippet(lines, 4);
+    } break;
+
+    case 10: {// first PART - follow white line until
+      snprintf(lines[0], MAX_LEN, "vel=0.4 : dist=1");
+      //snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
+      //Occupy Robot
+      snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, 2);
       // make sure event 1 is cleared
-      bridge->event->isEventSet(1);
+      //bridge->event->isEventSet(2);
       // tell the operator
-      printf("# case=%d sent mission snippet 1\n", state);
-//       system("espeak \"code snippet 1.\" -ven+f4 -s130 -a5 2>/dev/null &"); 
-      play.say("Code snippet 1.", 90);
-      bridge->send("oled 5 code snippet 1");
+      //printf("# case=%d sent mission snippet 1\n", state);
+      // system("espeak \"code snippet 1.\" -ven+f4 -s130 -a5 2>/dev/null &"); 
+      //play.say("Code snippet 1.", 90);
+      //bridge->send("oled 5 code snippet 1");
       //
       // play as we go
-      play.setFile("../The_thing_goes_Bassim.mp3");
-      play.setVolume(5); // % (0..100)
-      play.start();
+      //play.setFile("../The_thing_goes_Bassim.mp3");
+      //play.setVolume(5); // % (0..100)
+      //play.start();
       // go to wait for finished
       state = 11;
       featureCnt = 0;
       break;
+    }
+    
     case 11:
       // wait for event 1 (send when finished driving first part)
-      if (bridge->event->isEventSet(1))
-      { // finished first drive
+      if (bridge->event->isEventSet(1)) {
         state = 999;
-        play.stopPlaying();
+        //play.stopPlaying();
       }
       break;
     case 999:
@@ -440,7 +427,7 @@ bool UMission::mission1(int & state)
  *              therefore defined as reference with the '&'.
  *              State will be 0 at first call.
  * \returns true, when finished. */
-bool UMission::mission2(int & state)
+bool UMission::mission_seesaw(int & state)
 {
 /*  bool finished = false;
   // First commands to send to robobot in given mission
@@ -643,11 +630,41 @@ bool UMission::mission3(int & state)
  *              therefore defined as reference with the '&'.
  *              State will be 0 at first call.
  * \returns true, when finished. */
-bool UMission::mission4(int & state)
-{
+bool UMission::mission_racetrack(int & state) {
   bool finished = false;
-  switch (state)
-  {
+
+  switch (state) {
+    case 0: {
+      state++;
+    } break;
+
+    case 1: {
+      state = 10;
+    } break;
+
+    case 10: {
+      snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1, log = 1 : ir1 < 0.2");
+      snprintf(lines[1], MAX_LEN, "vel=0 : ir2 < 0.5");
+      snprintf(lines[2], MAX_LEN, "vel=0 : ir2 > 0.5");
+      snprintf(lines[3], MAX_LEN, "vel=2, acc=1.5, edger=0, white=1 : dist = 2");
+      snprintf(lines[4], MAX_LEN, "vel=2, acc=1.5, edger=0, white=1 : ir1 < 0.2");
+
+      //Occupy Robot
+      snprintf(lines[5], MAX_LEN, "event=2, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, 6);
+      state = 11;
+      featureCnt = 0;
+      break;
+    }
+    
+    case 11:
+      if (bridge->event->isEventSet(2)) {
+        state = 999;
+      }
+      break;
+
     case 999:
     default:
       printf("mission 4 ended\n");
