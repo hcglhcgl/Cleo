@@ -14,6 +14,12 @@ SSH folder from Cleo onto personal computer
 Unmount Folder "Cleo_files"
 - Terminal: umount Cleo_files
 
+### SSH in Visual Studio Code
+- Open VSC
+- Click on green box ('Open a Remote Window') in lower left corne
+- Click 'Connect to Host...'
+- ssh local@192.168.43.38
+
 ## Hotspot
 
 Change your hotspost to this SSID and make the password:
