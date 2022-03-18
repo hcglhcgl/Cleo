@@ -30,15 +30,14 @@ sudo umount Cleo_files
 - ssh local@192.168.43.38
 
 ## Hotspot
-
-Change your hotspost to this SSID and make the password:
+Change your hotspot to:
 - SSID "jul"
 - password "12345677"
 
 
 ## Run script from Visual Studio Code
-- Cd into build on Cleo
 ```bash
+cd /Cam_mission/build
 make
 ./mission
 ```
