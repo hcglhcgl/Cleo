@@ -122,6 +122,7 @@ private:
   bool mission_parking(int & state);
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);
+  bool mission_dummy(int & state);
   
   
   
