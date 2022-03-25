@@ -1,0 +1,107 @@
+[
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/main.cpp.o -c /home/local/mission-golfball/main.cpp",
+  "file": "/home/local/mission-golfball/main.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/urun.cpp.o -c /home/local/mission-golfball/urun.cpp",
+  "file": "/home/local/mission-golfball/urun.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ucamera.cpp.o -c /home/local/mission-golfball/ucamera.cpp",
+  "file": "/home/local/mission-golfball/ucamera.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ubridge.cpp.o -c /home/local/mission-golfball/ubridge.cpp",
+  "file": "/home/local/mission-golfball/ubridge.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/umission.cpp.o -c /home/local/mission-golfball/umission.cpp",
+  "file": "/home/local/mission-golfball/umission.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/utime.cpp.o -c /home/local/mission-golfball/utime.cpp",
+  "file": "/home/local/mission-golfball/utime.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/tcpCase.cpp.o -c /home/local/mission-golfball/tcpCase.cpp",
+  "file": "/home/local/mission-golfball/tcpCase.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uevent.cpp.o -c /home/local/mission-golfball/uevent.cpp",
+  "file": "/home/local/mission-golfball/uevent.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ujoy.cpp.o -c /home/local/mission-golfball/ujoy.cpp",
+  "file": "/home/local/mission-golfball/ujoy.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uinfo.cpp.o -c /home/local/mission-golfball/uinfo.cpp",
+  "file": "/home/local/mission-golfball/uinfo.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/umotor.cpp.o -c /home/local/mission-golfball/umotor.cpp",
+  "file": "/home/local/mission-golfball/umotor.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uedge.cpp.o -c /home/local/mission-golfball/uedge.cpp",
+  "file": "/home/local/mission-golfball/uedge.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/upose.cpp.o -c /home/local/mission-golfball/upose.cpp",
+  "file": "/home/local/mission-golfball/upose.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uirdist.cpp.o -c /home/local/mission-golfball/uirdist.cpp",
+  "file": "/home/local/mission-golfball/uirdist.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uaccgyro.cpp.o -c /home/local/mission-golfball/uaccgyro.cpp",
+  "file": "/home/local/mission-golfball/uaccgyro.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uaruco.cpp.o -c /home/local/mission-golfball/uaruco.cpp",
+  "file": "/home/local/mission-golfball/uaruco.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ulibpose2pose.cpp.o -c /home/local/mission-golfball/ulibpose2pose.cpp",
+  "file": "/home/local/mission-golfball/ulibpose2pose.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ulib2dline.cpp.o -c /home/local/mission-golfball/ulib2dline.cpp",
+  "file": "/home/local/mission-golfball/ulib2dline.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ulibpose.cpp.o -c /home/local/mission-golfball/ulibpose.cpp",
+  "file": "/home/local/mission-golfball/ulibpose.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/ulibposev.cpp.o -c /home/local/mission-golfball/ulibposev.cpp",
+  "file": "/home/local/mission-golfball/ulibposev.cpp"
+},
+{
+  "directory": "/home/local/mission-golfball/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission.dir/uline.cpp.o -c /home/local/mission-golfball/uline.cpp",
+  "file": "/home/local/mission-golfball/uline.cpp"
+}
+]

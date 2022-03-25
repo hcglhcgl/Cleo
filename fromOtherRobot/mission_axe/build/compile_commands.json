@@ -1,0 +1,102 @@
+[
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/main.cpp.o -c /home/local/mission_axe/main.cpp",
+  "file": "/home/local/mission_axe/main.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/urun.cpp.o -c /home/local/mission_axe/urun.cpp",
+  "file": "/home/local/mission_axe/urun.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ucamera.cpp.o -c /home/local/mission_axe/ucamera.cpp",
+  "file": "/home/local/mission_axe/ucamera.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ubridge.cpp.o -c /home/local/mission_axe/ubridge.cpp",
+  "file": "/home/local/mission_axe/ubridge.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/umission.cpp.o -c /home/local/mission_axe/umission.cpp",
+  "file": "/home/local/mission_axe/umission.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/utime.cpp.o -c /home/local/mission_axe/utime.cpp",
+  "file": "/home/local/mission_axe/utime.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/tcpCase.cpp.o -c /home/local/mission_axe/tcpCase.cpp",
+  "file": "/home/local/mission_axe/tcpCase.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uevent.cpp.o -c /home/local/mission_axe/uevent.cpp",
+  "file": "/home/local/mission_axe/uevent.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ujoy.cpp.o -c /home/local/mission_axe/ujoy.cpp",
+  "file": "/home/local/mission_axe/ujoy.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uinfo.cpp.o -c /home/local/mission_axe/uinfo.cpp",
+  "file": "/home/local/mission_axe/uinfo.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/umotor.cpp.o -c /home/local/mission_axe/umotor.cpp",
+  "file": "/home/local/mission_axe/umotor.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uedge.cpp.o -c /home/local/mission_axe/uedge.cpp",
+  "file": "/home/local/mission_axe/uedge.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/upose.cpp.o -c /home/local/mission_axe/upose.cpp",
+  "file": "/home/local/mission_axe/upose.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uirdist.cpp.o -c /home/local/mission_axe/uirdist.cpp",
+  "file": "/home/local/mission_axe/uirdist.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uaccgyro.cpp.o -c /home/local/mission_axe/uaccgyro.cpp",
+  "file": "/home/local/mission_axe/uaccgyro.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/uaruco.cpp.o -c /home/local/mission_axe/uaruco.cpp",
+  "file": "/home/local/mission_axe/uaruco.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ulibpose2pose.cpp.o -c /home/local/mission_axe/ulibpose2pose.cpp",
+  "file": "/home/local/mission_axe/ulibpose2pose.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ulib2dline.cpp.o -c /home/local/mission_axe/ulib2dline.cpp",
+  "file": "/home/local/mission_axe/ulib2dline.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ulibpose.cpp.o -c /home/local/mission_axe/ulibpose.cpp",
+  "file": "/home/local/mission_axe/ulibpose.cpp"
+},
+{
+  "directory": "/home/local/mission_axe/build",
+  "command": "/bin/arm-linux-gnueabihf-g++-8  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_axe.dir/ulibposev.cpp.o -c /home/local/mission_axe/ulibposev.cpp",
+  "file": "/home/local/mission_axe/ulibposev.cpp"
+}
+]

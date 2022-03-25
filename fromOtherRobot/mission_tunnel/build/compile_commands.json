@@ -1,0 +1,102 @@
+[
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/main.cpp.o -c /home/local/mission_tunnel/main.cpp",
+  "file": "/home/local/mission_tunnel/main.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/urun.cpp.o -c /home/local/mission_tunnel/urun.cpp",
+  "file": "/home/local/mission_tunnel/urun.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ucamera.cpp.o -c /home/local/mission_tunnel/ucamera.cpp",
+  "file": "/home/local/mission_tunnel/ucamera.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ubridge.cpp.o -c /home/local/mission_tunnel/ubridge.cpp",
+  "file": "/home/local/mission_tunnel/ubridge.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/umission.cpp.o -c /home/local/mission_tunnel/umission.cpp",
+  "file": "/home/local/mission_tunnel/umission.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/utime.cpp.o -c /home/local/mission_tunnel/utime.cpp",
+  "file": "/home/local/mission_tunnel/utime.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/tcpCase.cpp.o -c /home/local/mission_tunnel/tcpCase.cpp",
+  "file": "/home/local/mission_tunnel/tcpCase.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uevent.cpp.o -c /home/local/mission_tunnel/uevent.cpp",
+  "file": "/home/local/mission_tunnel/uevent.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ujoy.cpp.o -c /home/local/mission_tunnel/ujoy.cpp",
+  "file": "/home/local/mission_tunnel/ujoy.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uinfo.cpp.o -c /home/local/mission_tunnel/uinfo.cpp",
+  "file": "/home/local/mission_tunnel/uinfo.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/umotor.cpp.o -c /home/local/mission_tunnel/umotor.cpp",
+  "file": "/home/local/mission_tunnel/umotor.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uedge.cpp.o -c /home/local/mission_tunnel/uedge.cpp",
+  "file": "/home/local/mission_tunnel/uedge.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/upose.cpp.o -c /home/local/mission_tunnel/upose.cpp",
+  "file": "/home/local/mission_tunnel/upose.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uirdist.cpp.o -c /home/local/mission_tunnel/uirdist.cpp",
+  "file": "/home/local/mission_tunnel/uirdist.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uaccgyro.cpp.o -c /home/local/mission_tunnel/uaccgyro.cpp",
+  "file": "/home/local/mission_tunnel/uaccgyro.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/uaruco.cpp.o -c /home/local/mission_tunnel/uaruco.cpp",
+  "file": "/home/local/mission_tunnel/uaruco.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ulibpose2pose.cpp.o -c /home/local/mission_tunnel/ulibpose2pose.cpp",
+  "file": "/home/local/mission_tunnel/ulibpose2pose.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ulib2dline.cpp.o -c /home/local/mission_tunnel/ulib2dline.cpp",
+  "file": "/home/local/mission_tunnel/ulib2dline.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ulibpose.cpp.o -c /home/local/mission_tunnel/ulibpose.cpp",
+  "file": "/home/local/mission_tunnel/ulibpose.cpp"
+},
+{
+  "directory": "/home/local/mission_tunnel/build",
+  "command": "/usr/bin/c++  -Draspicam_CV_LIBS -I/usr/local/include -isystem /usr/include/opencv   -Wall -pedantic -std=c++11  -O2 -g0 -g   -o CMakeFiles/mission_tunnel.dir/ulibposev.cpp.o -c /home/local/mission_tunnel/ulibposev.cpp",
+  "file": "/home/local/mission_tunnel/ulibposev.cpp"
+}
+]

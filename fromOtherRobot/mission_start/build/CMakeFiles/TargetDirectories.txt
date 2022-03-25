@@ -1,0 +1,7 @@
+/home/local/mission_start/build/CMakeFiles/install/strip.dir
+/home/local/mission_start/build/CMakeFiles/edit_cache.dir
+/home/local/mission_start/build/CMakeFiles/mission_start.dir
+/home/local/mission_start/build/CMakeFiles/rebuild_cache.dir
+/home/local/mission_start/build/CMakeFiles/list_install_components.dir
+/home/local/mission_start/build/CMakeFiles/install.dir
+/home/local/mission_start/build/CMakeFiles/install/local.dir
