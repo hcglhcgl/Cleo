@@ -72,10 +72,12 @@ public:
   ~UMission();
   /**
    * Initialize regbot part to accept mission commands */
-  void missionInit();  
+  void missionInit();
   void openLog();
   void closeLog();
   inline bool logIsOpen() { return logMission != NULL; };
+
+  void parkServo();
   /**
    * Run the missions
    * \param fromMission is first mission element (default is 1)

@@ -247,24 +247,23 @@ void UMission::runMission() { /// current mission number
           play.say("Mission resuming", 90);
           bridge->send("oled 3 running AUTO\n");
         }
-        switch(mission)
-        {
-          case 1: // running auto mission
+        switch(mission) {
+          /*case 3: // running auto mission
             ended = mission_guillotine(missionState);
             break;
-          /*case 2:
+          case 4:
             ended = mission_seesaw(missionState);
             break;
-          case 3:
+          case 5:
             ended = mission_parking(missionState);
             break;
-          case 4:
+          case 6:
             ended = mission_racetrack(missionState);
             break;
-          case 5:
+          case 7:
             ended = mission_circleOfHell(missionState);
             break;*/
-          case 2:
+          case 1:
             ended = mission_dummy(missionState);
             break;
           default:
@@ -353,10 +352,9 @@ bool UMission::mission_guillotine(int & state) {
 
   switch (state) {
     case 0: {
-      // tell the operatior what to do
       printf("# press green to start.\n");
       //play.say("Press green to start", 90);
-      bridge->send("oled 5 press green to start");
+      //bridge->send("oled 5 press green to start");
       state++;
     } break;
 
@@ -365,15 +363,17 @@ bool UMission::mission_guillotine(int & state) {
         state = 10;
     } break;
 
-    case 10: {// first PART - follow white line until
+    case 10: {
       printf("Starting mission guillotine\n");
-      //snprintf(lines[0], MAX_LEN, "vel=0.4 : dist=1");
+
       snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
+
       //Occupy Robot
       snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, 2);
+
       // make sure event 1 is cleared
       //bridge->event->isEventSet(2);
       // tell the operator
@@ -393,7 +393,6 @@ bool UMission::mission_guillotine(int & state) {
     }
     
     case 11:
-      // wait for event 1 (send when finished driving first part)
       if (bridge->event->isEventSet(1)) {
         state = 999;
         //play.stopPlaying();
@@ -402,7 +401,7 @@ bool UMission::mission_guillotine(int & state) {
     case 999:
     default:
       printf("Mission guillotine ended \n");
-      bridge->send("oled 5 \"mission guillotine ended.\"");
+      //bridge->send("oled 5 \"mission guillotine ended.\"");
       finished = true;
       break;
   }
@@ -411,20 +410,16 @@ bool UMission::mission_guillotine(int & state) {
 
 bool UMission::mission_seesaw(int & state) {
   bool finished = false;
-  // First commands to send to robobot in given mission
-  // (robot sends event 1 after driving 1 meter)):
-  switch (state)
-  {
-    case 0:
-      // tell the operatior what to do
-      printf("Starting mission_seesaw\n");
-//       system("espeak \"looking for ArUco\" -ven+f4 -s130 -a5 2>/dev/null &"); 
-      //play.say("Looking for ArUco.", 90);
-      //bridge->send("oled 5 looking 4 ArUco");
-      state=10;
-      break;
-    case 10:
 
+  switch (state) {
+    case 0: {
+      printf("Starting mission_seesaw\n");
+      //system("espeak \"looking for ArUco\" -ven+f4 -s130 -a5 2>/dev/null &"); 
+
+      state=10;
+    } break;
+
+    case 10: {
       snprintf(lines[0], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
       snprintf(lines[1], MAX_LEN, "vel=0.6, tr=0.2: turn=90");
       snprintf(lines[2], MAX_LEN, "vel=0.4, edgel=0 : dist=1");
@@ -438,7 +433,7 @@ bool UMission::mission_seesaw(int & state) {
       state = 999;
       featureCnt = 0;
       break;
-
+    }
 
 
       /*// wait for finished driving first part)
@@ -454,7 +449,7 @@ bool UMission::mission_seesaw(int & state) {
       }
       break;
     case 12:
-      /*if (not cam->doArUcoAnalysis)
+      if (not cam->doArUcoAnalysis)
       { // aruco processing finished
         if (cam->arUcos->getMarkerCount(true) > 0)
         { // found a marker - go to marker (any marker)
@@ -589,11 +584,10 @@ bool UMission::mission_seesaw(int & state) {
     case 999:
     default:
       printf("Mission_seesaw ended\n");
+
       finished = true;
-      //play.stopPlaying();
       break;
   }
-  // printf("# mission1 return (state=%d, finished=%d, )\n", state, finished);
   return finished;
 }
 
@@ -633,14 +627,13 @@ bool UMission::mission_racetrack(int & state) {
       sendAndActivateSnippet(lines, 6);
       state = 11;
       featureCnt = 0;
-      break;
-    }
+    } break;
     
-    case 11:
+    case 11: {
       if (bridge->event->isEventSet(2)) {
         state = 999;
       }
-      break;
+    } break;
 
     case 999:
     default:
@@ -657,12 +650,18 @@ bool UMission::mission_circleOfHell(int & state) {
   switch (state) {
     case 999:
     default:
-      printf("mission circleOfHell ended\n");
-      bridge->send("oled 5 mission circleOfHell ended.");
+      printf("Mission circleOfHell ended\n");
       finished = true;
       break;
   }
   return finished;
+}
+
+void UMission::parkServo() {
+  int line = 0;
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=200");
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=200");
+  sendAndActivateSnippet(lines, line);
 }
 
 bool UMission::mission_dummy(int & state) {
@@ -675,26 +674,31 @@ bool UMission::mission_dummy(int & state) {
 
     case 10: {
       printf("Starting mission dummy\n");
-      snprintf(lines[0], MAX_LEN, "vel=1, acc=0.5 : dist = 1");
+      int line = 0;
+      //snprintf(lines[0], MAX_LEN, "vel=1, acc=0.5 : dist = 1");
+
+      parkServo();
+
+      //snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-0");
+      //snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-100");
 
       //Occupy Robot
-      snprintf(lines[1], MAX_LEN, "event=2, vel=0 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");
 
       // send lines to REGBOT
-      sendAndActivateSnippet(lines, 2);
+      sendAndActivateSnippet(lines, line);
       
       state = 11;
       featureCnt = 0;
       break;
     }
     
-    case 11:
-      // wait for event 1 (send when finished driving first part)
+    case 11: {
       if (bridge->event->isEventSet(2)) {
         state = 999;
-        //play.stopPlaying();
       }
-      break;
+    } break;
+
     case 999:
     default:
       printf("Mission dummy ended \n");
