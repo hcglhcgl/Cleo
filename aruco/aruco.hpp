@@ -27,6 +27,7 @@ class Aruco_finder
         Aruco_finder();
         ~Aruco_finder();
         pose_t find_aruco(cv::Mat * frame, bool show_image, bool red_or_white);
+        void set_markersize(float marker_size);
     private:
         pose_t aruco_pose;
         Mat cameraMatrix;
@@ -34,6 +35,7 @@ class Aruco_finder
         Mat R33 = Mat::eye(3,3,CV_64FC1);
         cv::Ptr<cv::aruco::Dictionary> dictionary;
         double distance(double x, double y);
+        float markerSize = 0.15;
 };
 
 

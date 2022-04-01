@@ -24,8 +24,10 @@ int main( int argc, char** argv )
     Aruco_finder ar_finder = Aruco_finder();
 
     lccv::PiCamera cam;
-    cam.options->video_width=600;
-    cam.options->video_height=480;
+    //cam.options->video_width=600;
+    //cam.options->video_height=480;
+    cam.options->video_width=1200;
+    cam.options->video_height=960;
     cam.options->framerate=30;
     cam.options->verbose=true;
 

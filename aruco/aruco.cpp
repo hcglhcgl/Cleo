@@ -43,6 +43,9 @@ double Aruco_finder::distance(double x, double y) {
     return dist;
 }
 
+void set_markersize(float marker_size) {
+    this.markerSize = marker_size;
+}
 pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_white) {
 
     bool marker_found = false;
@@ -51,7 +54,7 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
     cvtColor(*frame, gray,COLOR_BGR2GRAY);
 
     vector<int> detectedIDs;
-    float markerSize = 0.15;
+    
 	vector<vector<Point2f> > corners;
 	vector<Vec3d> rvecs, tvecs;
 
@@ -69,11 +72,11 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
 
     int wanted_id = 0;
     if(red_or_white == RED) {
-        cout << "Looking for RED" << endl;
+        //cout << "Looking for RED" << endl;
         wanted_id = 19;
     }
     else if (red_or_white == WHITE){
-        cout << "Looking for WHITE" << endl;
+        //cout << "Looking for WHITE" << endl;
         wanted_id = 5;
     }
 
