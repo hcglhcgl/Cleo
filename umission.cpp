@@ -741,8 +741,8 @@ void UMission::parkArm() {
   int parkLoc = 300;
 
   //Can NOT use 'time' here
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", parkLoc);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=0", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=1000 : time=3", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=1000 : time=3", parkLoc);
 
   //Stopping the servos to move furhter
   snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=500 : time=1", parkLoc);
