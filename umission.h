@@ -77,7 +77,8 @@ public:
   void closeLog();
   inline bool logIsOpen() { return logMission != NULL; };
 
-  void parkServo();
+  void parkArm();
+  void setArm(int armPose);
   /**
    * Run the missions
    * \param fromMission is first mission element (default is 1)

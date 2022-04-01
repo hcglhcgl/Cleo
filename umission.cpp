@@ -260,12 +260,12 @@ void UMission::runMission() { /// current mission number
           case 2:
             ended = mission_racetrack(missionState);
             break;*/
-          case 1:
-            ended = mission_circleOfHell(missionState);
-            break;
           /*case 1:
-            ended = mission_dummy(missionState);
+            ended = mission_circleOfHell(missionState);
             break;*/
+          case 1:
+            ended = mission_dummy(missionState);
+            break;
           default:
             // no more missions - end everything
             finished = true;
@@ -759,10 +759,33 @@ bool UMission::mission_circleOfHell(int & state) {
   return finished;
 }
 
-void UMission::parkServo() {
+void UMission::parkArm() {
   int line = 0;
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=200");
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=200");
+
+  //Can NOT use 'time' here
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=200, vservo=0");
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=200, vservo=0");
+
+  sendAndActivateSnippet(lines, line);
+}
+
+string int_to_string(int i)
+{
+    stringstream ss;
+    ss << i;
+    return ss.str();
+}
+
+void UMission::setArm(int armPose) {
+  int line = 0;
+  std::string command;
+
+  //Can NOT use 'time' here
+  command = "servo=2, pservo=" + int_to_string(armPose) + ", vservo=0";
+  snprintf(lines[line++], MAX_LEN, command);
+  //command = "servo=2, pservo=" + int_to_string(armPose) + ", vservo=0";
+  //snprintf(lines[line++], MAX_LEN, command);
+
   sendAndActivateSnippet(lines, line);
 }
 
@@ -779,7 +802,9 @@ bool UMission::mission_dummy(int & state) {
       int line = 0;
       //snprintf(lines[0], MAX_LEN, "vel=1, acc=0.5 : dist = 1");
 
-      parkServo();
+      parkArm();
+
+      setArm(0);
 
       //snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-0");
       //snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-100");
