@@ -12,5 +12,7 @@
 /home/local/Cam_mission/build/aruco/CMakeFiles/install/local.dir
 /home/local/Cam_mission/build/aruco/CMakeFiles/rebuild_cache.dir
 /home/local/Cam_mission/build/aruco/CMakeFiles/edit_cache.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/aruco_live.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/single_picture.dir
 /home/local/Cam_mission/build/aruco/CMakeFiles/install.dir
 /home/local/Cam_mission/build/aruco/CMakeFiles/create_aruco.dir

@@ -176,6 +176,36 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+aruco/CMakeFiles/aruco_live.dir/rule:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aruco/CMakeFiles/aruco_live.dir/rule
+.PHONY : aruco/CMakeFiles/aruco_live.dir/rule
+
+# Convenience name for target.
+aruco_live: aruco/CMakeFiles/aruco_live.dir/rule
+
+.PHONY : aruco_live
+
+# fast build rule for target.
+aruco_live/fast:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/build
+.PHONY : aruco_live/fast
+
+# Convenience name for target.
+aruco/CMakeFiles/single_picture.dir/rule:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aruco/CMakeFiles/single_picture.dir/rule
+.PHONY : aruco/CMakeFiles/single_picture.dir/rule
+
+# Convenience name for target.
+single_picture: aruco/CMakeFiles/single_picture.dir/rule
+
+.PHONY : single_picture
+
+# fast build rule for target.
+single_picture/fast:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/build
+.PHONY : single_picture/fast
+
+# Convenience name for target.
 aruco/CMakeFiles/create_aruco.dir/rule:
 	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aruco/CMakeFiles/create_aruco.dir/rule
 .PHONY : aruco/CMakeFiles/create_aruco.dir/rule
@@ -189,6 +219,63 @@ create_aruco: aruco/CMakeFiles/create_aruco.dir/rule
 create_aruco/fast:
 	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/create_aruco.dir/build.make aruco/CMakeFiles/create_aruco.dir/build
 .PHONY : create_aruco/fast
+
+aruco.o: aruco.cpp.o
+
+.PHONY : aruco.o
+
+# target to build an object file
+aruco.cpp.o:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco.cpp.o
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/aruco.cpp.o
+.PHONY : aruco.cpp.o
+
+aruco.i: aruco.cpp.i
+
+.PHONY : aruco.i
+
+# target to preprocess a source file
+aruco.cpp.i:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco.cpp.i
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/aruco.cpp.i
+.PHONY : aruco.cpp.i
+
+aruco.s: aruco.cpp.s
+
+.PHONY : aruco.s
+
+# target to generate assembly for a file
+aruco.cpp.s:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco.cpp.s
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/aruco.cpp.s
+.PHONY : aruco.cpp.s
+
+aruco_live.o: aruco_live.cpp.o
+
+.PHONY : aruco_live.o
+
+# target to build an object file
+aruco_live.cpp.o:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco_live.cpp.o
+.PHONY : aruco_live.cpp.o
+
+aruco_live.i: aruco_live.cpp.i
+
+.PHONY : aruco_live.i
+
+# target to preprocess a source file
+aruco_live.cpp.i:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco_live.cpp.i
+.PHONY : aruco_live.cpp.i
+
+aruco_live.s: aruco_live.cpp.s
+
+.PHONY : aruco_live.s
+
+# target to generate assembly for a file
+aruco_live.cpp.s:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/aruco_live.cpp.s
+.PHONY : aruco_live.cpp.s
 
 create_aruco.o: create_aruco.cpp.o
 
@@ -217,6 +304,33 @@ create_aruco.cpp.s:
 	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/create_aruco.dir/build.make aruco/CMakeFiles/create_aruco.dir/create_aruco.cpp.s
 .PHONY : create_aruco.cpp.s
 
+single_picture.o: single_picture.cpp.o
+
+.PHONY : single_picture.o
+
+# target to build an object file
+single_picture.cpp.o:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/single_picture.cpp.o
+.PHONY : single_picture.cpp.o
+
+single_picture.i: single_picture.cpp.i
+
+.PHONY : single_picture.i
+
+# target to preprocess a source file
+single_picture.cpp.i:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/single_picture.cpp.i
+.PHONY : single_picture.cpp.i
+
+single_picture.s: single_picture.cpp.s
+
+.PHONY : single_picture.s
+
+# target to generate assembly for a file
+single_picture.cpp.s:
+	cd /home/local/Cam_mission/build && $(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/single_picture.cpp.s
+.PHONY : single_picture.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -229,10 +343,21 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... aruco_live"
 	@echo "... create_aruco"
+	@echo "... single_picture"
+	@echo "... aruco.o"
+	@echo "... aruco.i"
+	@echo "... aruco.s"
+	@echo "... aruco_live.o"
+	@echo "... aruco_live.i"
+	@echo "... aruco_live.s"
 	@echo "... create_aruco.o"
 	@echo "... create_aruco.i"
 	@echo "... create_aruco.s"
+	@echo "... single_picture.o"
+	@echo "... single_picture.i"
+	@echo "... single_picture.s"
 .PHONY : help
 
 

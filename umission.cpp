@@ -31,8 +31,7 @@ UMission::UMission(UBridge * regbot/*, UCamera * camera*/) {
   bridge = regbot;
   threadActive = 100;
   // initialize line list to empty
-  for (int i = 0; i < missionLineMax; i++)
-  { // add to line list 
+  for (int i = 0; i < missionLineMax; i++) { // add to line list 
     lines[i] = lineBuffer[i];    
     // terminate c-strings strings - good practice, but not needed
     lines[i][0] = '\0';
@@ -121,13 +120,11 @@ void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt) 
   int startEvent = 31;
   // select Regbot thread to modify
   // and event to activate it
-  if (threadActive == 101)
-  {
+  if (threadActive == 101) {
     threadToMod = 100;
     startEvent = 30;
   }
-  if (missionLineCnt > missionLineMax)
-  {
+  if (missionLineCnt > missionLineMax) {
     printf("# ----------- error - too many lines ------------\n");
     printf("# You tried to send %d lines, but there is buffer space for %d only!\n", missionLineCnt, missionLineMax);
     printf("# set 'missionLineMax' to a higher number in 'umission.h' about line 57\n");
@@ -136,10 +133,8 @@ void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt) 
     missionLineCnt = missionLineMax;
   }
   // send mission lines using '<mod ...' command
-  for (int i = 0; i < missionLineCnt; i++)
-  { // send lines one at a time
-    if (strlen((char*)missionLines[i]) > 0)
-    { // send a modify line command
+  for (int i = 0; i < missionLineCnt; i++) { // send lines one at a time
+    if (strlen((char*)missionLines[i]) > 0) { // send a modify line command
       snprintf(s, MSL, "<mod %d %d %s\n", threadToMod, i+1, missionLines[i]);
       bridge->send(s); 
     }
@@ -190,15 +185,12 @@ void UMission::runMission() { /// current mission number
   bridge->send("oled 3 waiting for REGBOT\n");
 //   play.say("Waiting for robot data.", 100);
   ///
-  for (int i = 0; i < 3; i++)
-  {
-    if (not bridge->info->isHeartbeatOK())
-    { // heartbeat should come at least once a second
+  for (int i = 0; i < 3; i++) {
+    if (not bridge->info->isHeartbeatOK()) { // heartbeat should come at least once a second
       sleep(2);
     }
   }
-  if (not bridge->info->isHeartbeatOK())
-  { // heartbeat should come at least once a second
+  if (not bridge->info->isHeartbeatOK()) { // heartbeat should come at least once a second
     play.say("Oops, no usable connection with robot.", 100);
 //    system("espeak \"Oops, no usable connection with robot.\" -ven+f4 -s130 -a60 2>/dev/null &"); 
     bridge->send("oled 3 Oops: Lost REGBOT!");
@@ -212,36 +204,28 @@ void UMission::runMission() { /// current mission number
       stop();
   }
   /// loop in sequence every mission until they report ended
-  while (not finished and not th1stop)
-  { // stay in this mission loop until finished
+  while (not finished and not th1stop) { // stay in this mission loop until finished
     loop++;
     // test for manuel override (joy is short for joystick or gamepad)
-    if (bridge->joy->manual)
-    { // just wait, do not continue mission
+    if (bridge->joy->manual) { // just wait, do not continue mission
       usleep(20000);
-      if (not inManual)
-      {
+      if (not inManual) {
 //         system("espeak \"Mission paused.\" -ven+f4 -s130 -a40 2>/dev/null &"); 
         play.say("Mission paused.", 90);
       }
       inManual = true;
       bridge->send("oled 3 GAMEPAD control\n");
     }
-    else
-    { // in auto mode
-      if (not regbotStarted)
-      { // wait for start event is received from REGBOT
+    else { // in auto mode
+      if (not regbotStarted) { // wait for start event is received from REGBOT
         // - in response to 'bot->send("start\n")' earlier
-        if (bridge->event->isEventSet(33))
-        { // start mission (button pressed)
+        if (bridge->event->isEventSet(33)) { // start mission (button pressed)
 //           printf("Mission::runMission: starting mission (part from %d to %d)\n", fromMission, toMission);
           regbotStarted = true;
         }
       }
-      else
-      { // mission in auto mode
-        if (inManual)
-        { // just entered auto mode, so tell.
+      else { // mission in auto mode
+        if (inManual) { // just entered auto mode, so tell.
           inManual = false;
 //           system("espeak \"Mission resuming.\" -ven+f4 -s130 -a40 2>/dev/null &");
           //play.say("Mission resuming", 90);
@@ -271,21 +255,18 @@ void UMission::runMission() { /// current mission number
             finished = true;
             break;
         }
-        if (ended)
-        { // start next mission part in state 0
+        if (ended) { // start next mission part in state 0
           mission++;
           ended = false;
           missionState = 0;
         }
         // show current state on robot display
-        if (mission != missionOld or missionState != missionStateOld)
-        { // update small O-led display on robot - when there is a change
+        if (mission != missionOld or missionState != missionStateOld) { // update small O-led display on robot - when there is a change
           UTime t;
           t.now();
           snprintf(s, MSL, "oled 4 mission %d state %d\n", mission, missionState);
           bridge->send(s);
-          if (logMission != NULL)
-          {
+          if (logMission != NULL) {
             fprintf(logMission, "%ld.%03ld %d %d\n", 
                     t.getSec(), t.getMilisec(),
                     missionOld, missionStateOld
@@ -305,16 +286,14 @@ void UMission::runMission() { /// current mission number
     // gamepad buttons 0=green, 1=red, 2=blue, 3=yellow, 4=LB, 5=RB, 6=back, 7=start, 8=Logitech, 9=A1, 10 = A2
     // gamepad axes    0=left-LR, 1=left-UD, 2=LT, 3=right-LR, 4=right-UD, 5=RT, 6=+LR, 7=+-UD
     // see also "ujoy.h"
-    if (bridge->joy->button[BUTTON_RED])
-    { // red button -> save image
+    if (bridge->joy->button[BUTTON_RED]) { // red button -> save image
 /*      if (not cam->saveImage)
       {
         printf("UMission::runMission:: button 1 (red) pressed -> save image\n");
         cam->saveImage = true;
       }*/
     }
-    if (bridge->joy->button[BUTTON_YELLOW])
-    { // yellow button -> make ArUco analysis
+    if (bridge->joy->button[BUTTON_YELLOW]) { // yellow button -> make ArUco analysis
       /*if (not cam->doArUcoAnalysis)
       {
         printf("UMission::runMission:: button 3 (yellow) pressed -> do ArUco\n");
@@ -322,13 +301,11 @@ void UMission::runMission() { /// current mission number
       }*/
     }
     // are we finished - event 0 disables motors (e.g. green button)
-    if (bridge->event->isEventSet(0))
-    { // robot say stop
+    if (bridge->event->isEventSet(0)) { // robot say stop
       finished = true;
       printf("Mission:: insist we are finished\n");
     }
-    else if (mission > toMission)
-    { // stop robot
+    else if (mission > toMission) { // stop robot
       // make an event 0
       bridge->send("stop\n");
       // stop mission loop
@@ -338,7 +315,7 @@ void UMission::runMission() { /// current mission number
     usleep(10000);
   }
   bridge->send("stop\n");
-  snprintf(s, MSL, "Robot %s finished.\n", bridge->info->robotname);
+  snprintf(s, MSL, "Robot%s finished.\n", bridge->info->robotname);
 //   system(s); 
   play.say(s, 100);
   printf("%s", s);
@@ -372,7 +349,7 @@ bool UMission::mission_guillotine(int & state) {
       //Occupy Robot
       snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
 
-      // send lines to REGBOT
+      // send lines to Cleo
       sendAndActivateSnippet(lines, 2);
 
       // make sure event 1 is cleared
@@ -694,8 +671,8 @@ bool UMission::mission_racetrack(int & state) {
 
 bool UMission::mission_circleOfHell(int & state) {
   bool finished = false;
-  switch (state) {
 
+  switch (state) {
     case 0: {
       printf("Starting mission circle of Hell\n");
       state = 10;
@@ -761,23 +738,17 @@ bool UMission::mission_circleOfHell(int & state) {
 
 void UMission::parkArm() {
   int line = 0;
+  int parkLoc = 300;
 
   //Can NOT use 'time' here
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0");
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0");
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=0", parkLoc);
 
   //Stopping the servos to move furhter
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0 : time=1");
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0 : time=1");
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=500 : time=1", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=500 : time=1", parkLoc);
 
   sendAndActivateSnippet(lines, line);
-}
-
-string int_to_string(int i)
-{
-    stringstream ss;
-    ss << i;
-    return ss.str();
 }
 
 void UMission::setArm(int armPose) {
@@ -844,8 +815,7 @@ void UMission::openLog() {
   // construct filename ArUco
   snprintf(name, MNL, "log_mission_%s.txt", date);
   logMission = fopen(name, "w");
-  if (logMission != NULL)
-  {
+  if (logMission != NULL) {
     const int MSL = 50;
     char s[MSL];
     fprintf(logMission, "%% Mission log started at %s\n", appTime.getDateTimeAsString(s));

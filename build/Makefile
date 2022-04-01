@@ -215,6 +215,32 @@ takephoto/fast:
 .PHONY : takephoto/fast
 
 #=============================================================================
+# Target rules for targets named aruco_live
+
+# Build rule for target.
+aruco_live: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aruco_live
+.PHONY : aruco_live
+
+# fast build rule for target.
+aruco_live/fast:
+	$(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/aruco_live.dir/build.make aruco/CMakeFiles/aruco_live.dir/build
+.PHONY : aruco_live/fast
+
+#=============================================================================
+# Target rules for targets named single_picture
+
+# Build rule for target.
+single_picture: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 single_picture
+.PHONY : single_picture
+
+# fast build rule for target.
+single_picture/fast:
+	$(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/single_picture.dir/build.make aruco/CMakeFiles/single_picture.dir/build
+.PHONY : single_picture/fast
+
+#=============================================================================
 # Target rules for targets named create_aruco
 
 # Build rule for target.
@@ -887,8 +913,10 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... aruco_live"
 	@echo "... create_aruco"
 	@echo "... mission"
+	@echo "... single_picture"
 	@echo "... takephoto"
 	@echo "... takevideo"
 	@echo "... AppleDetector.o"

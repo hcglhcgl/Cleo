@@ -61,5 +61,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/mission.dir/DependInfo.cmake"
   "CMakeFiles/takevideo.dir/DependInfo.cmake"
   "CMakeFiles/takephoto.dir/DependInfo.cmake"
+  "aruco/CMakeFiles/aruco_live.dir/DependInfo.cmake"
+  "aruco/CMakeFiles/single_picture.dir/DependInfo.cmake"
   "aruco/CMakeFiles/create_aruco.dir/DependInfo.cmake"
   )
