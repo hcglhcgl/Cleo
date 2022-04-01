@@ -738,15 +738,11 @@ bool UMission::mission_circleOfHell(int & state) {
 
 void UMission::parkArm() {
   int line = 0;
-  int parkLoc = 300;
+  int parkLoc = 150;
 
   //Can NOT use 'time' here
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=100 : time=2", parkLoc);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=100 : time=2", parkLoc);
-
-  //Stopping the servos to move furhter
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=500 : time=1", parkLoc);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=500 : time=1", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d", parkLoc);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d", parkLoc);
 
   sendAndActivateSnippet(lines, line);
 }
@@ -773,7 +769,14 @@ bool UMission::mission_dummy(int & state) {
     case 10: {
       int line = 0;
 
-      parkArm();
+      //parkArm();
+
+      
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=1, pservo=0");
+
+      sendAndActivateSnippet(lines, line);
 
       //Occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
