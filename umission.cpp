@@ -763,8 +763,12 @@ void UMission::parkArm() {
   int line = 0;
 
   //Can NOT use 'time' here
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=200, vservo=0");
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=200, vservo=0");
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0");
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0");
+
+  //Stopping the servos to move furhter
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0 : time=1");
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0 : time=1");
 
   sendAndActivateSnippet(lines, line);
 }
@@ -778,13 +782,10 @@ string int_to_string(int i)
 
 void UMission::setArm(int armPose) {
   int line = 0;
-  std::string command;
 
-  //Can NOT use 'time' here
-  command = "servo=2, pservo=" + int_to_string(armPose) + ", vservo=0";
-  snprintf(lines[line++], MAX_LEN, command);
-  //command = "servo=2, pservo=" + int_to_string(armPose) + ", vservo=0";
-  //snprintf(lines[line++], MAX_LEN, command);
+  //Can NOT use 'time' here 
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", armPose);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=%d, vservo=0", armPose);
 
   sendAndActivateSnippet(lines, line);
 }
@@ -794,23 +795,17 @@ bool UMission::mission_dummy(int & state) {
 
   switch (state) {
     case 0: {
+      printf("Starting mission dummy\n");
       state = 10;
     } break;
 
     case 10: {
-      printf("Starting mission dummy\n");
       int line = 0;
-      //snprintf(lines[0], MAX_LEN, "vel=1, acc=0.5 : dist = 1");
 
       parkArm();
 
-      setArm(0);
-
-      //snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-0");
-      //snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-100");
-
       //Occupy Robot
-      snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
@@ -821,7 +816,7 @@ bool UMission::mission_dummy(int & state) {
     }
     
     case 11: {
-      if (bridge->event->isEventSet(2)) {
+      if (bridge->event->isEventSet(10)) {
         state = 999;
       }
     } break;
