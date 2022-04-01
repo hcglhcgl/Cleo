@@ -25,6 +25,7 @@
 #include "utime.h"
 #include "ulibpose2pose.h"
 
+bool alreadyParked = false;
 
 UMission::UMission(UBridge * regbot/*, UCamera * camera*/) {
   //cam = camera;
@@ -94,8 +95,7 @@ void UMission::missionInit() { // stop any not-finished mission
     // send placeholder lines, that will never finish
     bridge->send("robot <add vel=0 : time=0.1\n");
   usleep(10000);
-  //
-  //
+
   // send subscribe to bridge
   bridge->pose->subscribe();
   bridge->edge->subscribe();
@@ -151,6 +151,38 @@ void UMission::sendAndActivateSnippet(char ** missionLines, int missionLineCnt) 
   threadActive = threadToMod;
 }
 
+void UMission::parkArm() {
+  int line = 0;
+  int parkLoc = 150;
+
+  if (!alreadyParked) {
+    //Can NOT use 'time' here
+    snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d", parkLoc);
+    snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d", parkLoc);
+    
+    //Waiting for 1 sec before continuing
+    snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+    snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : time=1");
+    sendAndActivateSnippet(lines, line);
+    while(!(bridge->event->isEventSet(9))) {
+        alreadyParked = false;
+    }
+
+    alreadyParked = true;
+  }
+}
+
+void UMission::setArm(int armPose) {
+  int line = 0;
+
+  //Can NOT use 'time' here 
+  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", armPose);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=0", armPose);
+
+  sendAndActivateSnippet(lines, line);
+
+  alreadyParked = false;
+}
 
 //////////////////////////////////////////////////////////
 
@@ -183,8 +215,8 @@ void UMission::runMission() { /// current mission number
   /// start (the empty) mission, ready for mission snippets.
   bridge->send("start\n"); // ask REGBOT to start controlled run (ready to execute)
   bridge->send("oled 3 waiting for REGBOT\n");
-//   play.say("Waiting for robot data.", 100);
-  ///
+  //play.say("Waiting for robot data.", 100);
+  
   for (int i = 0; i < 3; i++) {
     if (not bridge->info->isHeartbeatOK()) { // heartbeat should come at least once a second
       sleep(2);
@@ -192,25 +224,25 @@ void UMission::runMission() { /// current mission number
   }
   if (not bridge->info->isHeartbeatOK()) { // heartbeat should come at least once a second
     play.say("Oops, no usable connection with robot.", 100);
-//    system("espeak \"Oops, no usable connection with robot.\" -ven+f4 -s130 -a60 2>/dev/null &"); 
+    //system("espeak \"Oops, no usable connection with robot.\" -ven+f4 -s130 -a60 2>/dev/null &"); 
     bridge->send("oled 3 Oops: Lost REGBOT!");
     printf("# ---------- error ------------\n");
     printf("# No heartbeat from robot. Bridge or REGBOT is stuck\n");
-//     printf("# You could try restart ROBOBOT bridge ('b' from mission console) \n");
+    //printf("# You could try restart ROBOBOT bridge ('b' from mission console) \n");
     printf("# -----------------------------\n");
-    //
+
     if (false)
       // for debug - allow this
       stop();
   }
-  /// loop in sequence every mission until they report ended
+  // loop in sequence every mission until they report ended
   while (not finished and not th1stop) { // stay in this mission loop until finished
     loop++;
     // test for manuel override (joy is short for joystick or gamepad)
     if (bridge->joy->manual) { // just wait, do not continue mission
       usleep(20000);
       if (not inManual) {
-//         system("espeak \"Mission paused.\" -ven+f4 -s130 -a40 2>/dev/null &"); 
+        //system("espeak \"Mission paused.\" -ven+f4 -s130 -a40 2>/dev/null &"); 
         play.say("Mission paused.", 90);
       }
       inManual = true;
@@ -220,34 +252,34 @@ void UMission::runMission() { /// current mission number
       if (not regbotStarted) { // wait for start event is received from REGBOT
         // - in response to 'bot->send("start\n")' earlier
         if (bridge->event->isEventSet(33)) { // start mission (button pressed)
-//           printf("Mission::runMission: starting mission (part from %d to %d)\n", fromMission, toMission);
+          //printf("Mission::runMission: starting mission (part from %d to %d)\n", fromMission, toMission);
           regbotStarted = true;
         }
       }
       else { // mission in auto mode
         if (inManual) { // just entered auto mode, so tell.
           inManual = false;
-//           system("espeak \"Mission resuming.\" -ven+f4 -s130 -a40 2>/dev/null &");
+          //system("espeak \"Mission resuming.\" -ven+f4 -s130 -a40 2>/dev/null &");
           //play.say("Mission resuming", 90);
           //bridge->send("oled 3 running AUTO\n");
         }
         switch(mission) {
-          /*case 1:
+          case 1:
             ended = mission_guillotine(missionState);
             break;
-          case 2:
+          case 20:
             ended = mission_seesaw(missionState);
             break;
-          case 2:
+          case 30:
             ended = mission_parking(missionState);
             break;
-          case 2:
+          case 40:
             ended = mission_racetrack(missionState);
             break;
-          case 1:
+          case 50:
             ended = mission_circleOfHell(missionState);
-            break;*/
-          case 1:
+            break;
+          case 60:
             ended = mission_dummy(missionState);
             break;
           default:
@@ -287,15 +319,13 @@ void UMission::runMission() { /// current mission number
     // gamepad axes    0=left-LR, 1=left-UD, 2=LT, 3=right-LR, 4=right-UD, 5=RT, 6=+LR, 7=+-UD
     // see also "ujoy.h"
     if (bridge->joy->button[BUTTON_RED]) { // red button -> save image
-/*      if (not cam->saveImage)
-      {
+      /*if (not cam->saveImage) {
         printf("UMission::runMission:: button 1 (red) pressed -> save image\n");
         cam->saveImage = true;
       }*/
     }
     if (bridge->joy->button[BUTTON_YELLOW]) { // yellow button -> make ArUco analysis
-      /*if (not cam->doArUcoAnalysis)
-      {
+      /*if (not cam->doArUcoAnalysis) {
         printf("UMission::runMission:: button 3 (yellow) pressed -> do ArUco\n");
         cam->doArUcoAnalysis = true;
       }*/
@@ -329,27 +359,30 @@ bool UMission::mission_guillotine(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Press green to start.\n");
+      printf(">> Press green to start.\n");
       state = 1;
     } break;
 
     case 1: {
       if (bridge->joy->button[BUTTON_GREEN])
         state = 10;
+      state = 10;
+      printf(">> Starting mission guillotine\n");
     } break;
 
     case 10: {
-      printf("Starting mission guillotine\n");
+      int line = 0;
 
       parkArm();
 
-      snprintf(lines[0], MAX_LEN, "vel=0.5, edgel=0, white=1 : xl>15");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, acc=0.5, edgel=0, white=1 : dst=0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : xl>15");
 
       // occupy Robot
-      snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=1, vel=0 : dist=1");
 
       // send lines to Cleo
-      sendAndActivateSnippet(lines, 2);
+      sendAndActivateSnippet(lines, line);
 
       state = 11;
       featureCnt = 0;
@@ -363,7 +396,7 @@ bool UMission::mission_guillotine(int & state) {
 
     case 999:
     default:
-      printf("Mission guillotine ended \n");
+      printf(">> Mission guillotine ended \n");
       finished = true;
       break;
   }
@@ -375,7 +408,7 @@ bool UMission::mission_seesaw(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Starting mission_seesaw\n");
+      printf(">> Starting mission_seesaw\n");
 
       state = 10;
     } break;
@@ -385,7 +418,7 @@ bool UMission::mission_seesaw(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.6, tr=0.2: turn=90");
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, tr=0.2 : turn=90");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0 : dist=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : ir2<0.2");
 
@@ -407,7 +440,7 @@ bool UMission::mission_seesaw(int & state) {
 
     case 999:
     default:
-      printf("Mission_seesaw ended\n");
+      printf(">> Mission_seesaw ended\n");
 
       finished = true;
       break;
@@ -420,7 +453,7 @@ bool UMission::mission_parking(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Starting mission parking\n");
+      printf(">> Starting mission parking\n");
       state = 10;
     } break;
 
@@ -459,7 +492,7 @@ bool UMission::mission_parking(int & state) {
 
     case 999:
     default:
-      printf("Mission parking ended\n");
+      printf(">> Mission parking ended\n");
       finished = true;
       break;
   }
@@ -471,7 +504,7 @@ bool UMission::mission_racetrack(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Starting mission racetrack\n");
+      printf(">> Starting mission racetrack\n");
       state = 10;
     } break;
 
@@ -503,7 +536,7 @@ bool UMission::mission_racetrack(int & state) {
 
     case 999:
     default:
-      printf("Mission racetrack ended\n");
+      printf(">> Mission racetrack ended\n");
       finished = true;
       break;
   }
@@ -515,7 +548,7 @@ bool UMission::mission_circleOfHell(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Starting mission circle of Hell\n");
+      printf(">> Starting mission circle of Hell\n");
       state = 10;
     } break;
 
@@ -568,35 +601,13 @@ bool UMission::mission_circleOfHell(int & state) {
       }
     } break;
 
-
     case 999:
     default:
-      printf("Mission circleOfHell ended\n");
+      printf(">> Mission circleOfHell ended\n");
       finished = true;
       break;
   }
   return finished;
-}
-
-void UMission::parkArm() {
-  int line = 0;
-  int parkLoc = 150;
-
-  //Can NOT use 'time' here
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d", parkLoc);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d", parkLoc);
-
-  sendAndActivateSnippet(lines, line);
-}
-
-void UMission::setArm(int armPose) {
-  int line = 0;
-
-  //Can NOT use 'time' here 
-  snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", armPose);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=0", armPose);
-
-  sendAndActivateSnippet(lines, line);
 }
 
 bool UMission::mission_dummy(int & state) {
@@ -604,7 +615,7 @@ bool UMission::mission_dummy(int & state) {
 
   switch (state) {
     case 0: {
-      printf("Starting mission dummy\n");
+      printf(">> Starting mission dummy\n");
       state = 10;
     } break;
 
@@ -612,8 +623,6 @@ bool UMission::mission_dummy(int & state) {
       int line = 0;
 
       parkArm();
-
-      sendAndActivateSnippet(lines, line);
 
       //Occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
