@@ -43,8 +43,8 @@ double Aruco_finder::distance(double x, double y) {
     return dist;
 }
 
-void set_markersize(float marker_size) {
-    this.markerSize = marker_size;
+void Aruco_finder::set_markersize(float marker_size) {
+    this->markerSize = marker_size;
 }
 pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_white) {
 

@@ -316,7 +316,7 @@ void UMission::runMission() { /// current mission number
   }
   bridge->send("stop\n");
   snprintf(s, MSL, "Robot%s finished.\n", bridge->info->robotname);
-//   system(s); 
+  // system(s); 
   play.say(s, 100);
   printf("%s", s);
   bridge->send("oled 3 finished\n");
@@ -329,16 +329,13 @@ bool UMission::mission_guillotine(int & state) {
 
   switch (state) {
     case 0: {
-      printf("# press green to start.\n");
-      //play.say("Press green to start", 90);
-      //bridge->send("oled 5 press green to start");
-      state++;
+      printf("Press green to start.\n");
+      state = 1;
     } break;
 
     case 1: {
       if (bridge->joy->button[BUTTON_GREEN])
         state = 10;
-      state = 10;
     } break;
 
     case 10: {
@@ -348,40 +345,25 @@ bool UMission::mission_guillotine(int & state) {
 
       snprintf(lines[0], MAX_LEN, "vel=0.5, edgel=0, white=1 : xl>15");
 
-      //Occupy Robot
+      // occupy Robot
       snprintf(lines[1], MAX_LEN, "event=1, vel=0 : dist=1");
 
       // send lines to Cleo
       sendAndActivateSnippet(lines, 2);
 
-      // make sure event 1 is cleared
-      //bridge->event->isEventSet(2);
-      // tell the operator
-      //printf("# case=%d sent mission snippet 1\n", state);
-      // system("espeak \"code snippet 1.\" -ven+f4 -s130 -a5 2>/dev/null &"); 
-      //play.say("Code snippet 1.", 90);
-      //bridge->send("oled 5 code snippet 1");
-      //
-      // play as we go
-      //play.setFile("../The_thing_goes_Bassim.mp3");
-      //play.setVolume(5); // % (0..100)
-      //play.start();
-      // go to wait for finished
       state = 11;
       featureCnt = 0;
-      break;
-    }
-    
-    case 11:
+    } break;
+
+    case 11: {
       if (bridge->event->isEventSet(1)) {
         state = 999;
-        //play.stopPlaying();
-      }
-      break;
+      } 
+    } break;
+
     case 999:
     default:
       printf("Mission guillotine ended \n");
-      //bridge->send("oled 5 \"mission guillotine ended.\"");
       finished = true;
       break;
   }
@@ -395,8 +377,9 @@ bool UMission::mission_seesaw(int & state) {
     case 0: {
       printf("Starting mission_seesaw\n");
 
-      state=10;
+      state = 10;
     } break;
+
     case 10: {
       int line = 0;
 
@@ -414,13 +397,14 @@ bool UMission::mission_seesaw(int & state) {
 
       state = 11;
       featureCnt = 0;
-      break;
-    }
-    case 11:
+    } break;
+
+    case 11: {
       if (bridge->event->isEventSet(2)) {
         state = 999;
       }
-      break;
+    } break;
+
     case 999:
     default:
       printf("Mission_seesaw ended\n");
@@ -472,6 +456,7 @@ bool UMission::mission_parking(int & state) {
         state = 999;
       }
     } break;
+
     case 999:
     default:
       printf("Mission parking ended\n");

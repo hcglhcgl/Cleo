@@ -22,12 +22,12 @@ int main( int argc, char** argv )
     //Aruco variables
     pose_t aruco_location;
     Aruco_finder ar_finder = Aruco_finder();
+    ar_finder.set_markersize(0.15);
 
     lccv::PiCamera cam;
-    //cam.options->video_width=600;
-    //cam.options->video_height=480;
-    cam.options->video_width=1200;
-    cam.options->video_height=960;
+    //Aspect ratio of pi cam 2 = 1.3311
+    cam.options->video_width=932;
+    cam.options->video_height=700;
     cam.options->framerate=30;
     cam.options->verbose=true;
 
