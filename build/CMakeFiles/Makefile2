@@ -75,11 +75,12 @@ CMAKE_BINARY_DIR = /home/local/Cam_mission/build
 all: CMakeFiles/mission.dir/all
 all: CMakeFiles/takevideo.dir/all
 all: CMakeFiles/takephoto.dir/all
+all: aruco/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: aruco/preinstall
 
 .PHONY : preinstall
 
@@ -87,8 +88,27 @@ preinstall:
 clean: CMakeFiles/mission.dir/clean
 clean: CMakeFiles/takevideo.dir/clean
 clean: CMakeFiles/takephoto.dir/clean
+clean: aruco/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory aruco
+
+# Recursive "all" directory target.
+aruco/all: aruco/CMakeFiles/create_aruco.dir/all
+
+.PHONY : aruco/all
+
+# Recursive "preinstall" directory target.
+aruco/preinstall:
+
+.PHONY : aruco/preinstall
+
+# Recursive "clean" directory target.
+aruco/clean: aruco/CMakeFiles/create_aruco.dir/clean
+
+.PHONY : aruco/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/mission.dir
@@ -97,7 +117,7 @@ clean: CMakeFiles/takephoto.dir/clean
 CMakeFiles/mission.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mission.dir/build.make CMakeFiles/mission.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/mission.dir/build.make CMakeFiles/mission.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 "Built target mission"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 "Built target mission"
 .PHONY : CMakeFiles/mission.dir/all
 
 # Build rule for subdir invocation for target.
@@ -124,7 +144,7 @@ CMakeFiles/mission.dir/clean:
 CMakeFiles/takevideo.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takevideo.dir/build.make CMakeFiles/takevideo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=25,26,27 "Built target takevideo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=27,28,29 "Built target takevideo"
 .PHONY : CMakeFiles/takevideo.dir/all
 
 # Build rule for subdir invocation for target.
@@ -151,7 +171,7 @@ CMakeFiles/takevideo.dir/clean:
 CMakeFiles/takephoto.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takephoto.dir/build.make CMakeFiles/takephoto.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takephoto.dir/build.make CMakeFiles/takephoto.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=23,24 "Built target takephoto"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=25,26 "Built target takephoto"
 .PHONY : CMakeFiles/takephoto.dir/all
 
 # Build rule for subdir invocation for target.
@@ -170,6 +190,33 @@ takephoto: CMakeFiles/takephoto.dir/rule
 CMakeFiles/takephoto.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/takephoto.dir/build.make CMakeFiles/takephoto.dir/clean
 .PHONY : CMakeFiles/takephoto.dir/clean
+
+#=============================================================================
+# Target rules for target aruco/CMakeFiles/create_aruco.dir
+
+# All Build rule for target.
+aruco/CMakeFiles/create_aruco.dir/all:
+	$(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/create_aruco.dir/build.make aruco/CMakeFiles/create_aruco.dir/depend
+	$(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/create_aruco.dir/build.make aruco/CMakeFiles/create_aruco.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/local/Cam_mission/build/CMakeFiles --progress-num=1,2 "Built target create_aruco"
+.PHONY : aruco/CMakeFiles/create_aruco.dir/all
+
+# Build rule for subdir invocation for target.
+aruco/CMakeFiles/create_aruco.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local/Cam_mission/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 aruco/CMakeFiles/create_aruco.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/local/Cam_mission/build/CMakeFiles 0
+.PHONY : aruco/CMakeFiles/create_aruco.dir/rule
+
+# Convenience name for target.
+create_aruco: aruco/CMakeFiles/create_aruco.dir/rule
+
+.PHONY : create_aruco
+
+# clean rule for target.
+aruco/CMakeFiles/create_aruco.dir/clean:
+	$(MAKE) $(MAKESILENT) -f aruco/CMakeFiles/create_aruco.dir/build.make aruco/CMakeFiles/create_aruco.dir/clean
+.PHONY : aruco/CMakeFiles/create_aruco.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

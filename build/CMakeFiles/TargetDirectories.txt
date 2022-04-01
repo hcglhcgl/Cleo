@@ -7,3 +7,10 @@
 /home/local/Cam_mission/build/CMakeFiles/takevideo.dir
 /home/local/Cam_mission/build/CMakeFiles/install/strip.dir
 /home/local/Cam_mission/build/CMakeFiles/takephoto.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/install/strip.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/list_install_components.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/install/local.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/rebuild_cache.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/edit_cache.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/install.dir
+/home/local/Cam_mission/build/aruco/CMakeFiles/create_aruco.dir
