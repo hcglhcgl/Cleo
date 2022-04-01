@@ -50,7 +50,6 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
     Mat gray;
     cvtColor(*frame, gray,COLOR_BGR2GRAY);
 
-    vector<int> markerID_Dict{1,2,10};
     vector<int> detectedIDs;
     float markerSize = 0.15;
 	vector<vector<Point2f> > corners;
@@ -70,9 +69,11 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
 
     int wanted_id = 0;
     if(red_or_white == RED) {
+        cout << "Looking for RED" << endl;
         wanted_id = 19;
     }
     else if (red_or_white == WHITE){
+        cout << "Looking for WHITE" << endl;
         wanted_id = 5;
     }
 
@@ -93,6 +94,7 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
             
             if (detectedIDs[i] == wanted_id) {
                 wantedIDIndex = i;
+                aruco_pose.valid = true;
             }
         }
         //Camera coordinate system is different from the drones - the x & y are swapped.
@@ -100,11 +102,9 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
         aruco_pose.y = tvecs[wantedIDIndex][1];
         aruco_pose.z = tvecs[wantedIDIndex][2];
 
-
         aruco_pose.th = 0;
         //Aruco ID
         aruco_pose.id = detectedIDs[wantedIDIndex];
-        aruco_pose.valid = true;
     }
     return aruco_pose;
 }

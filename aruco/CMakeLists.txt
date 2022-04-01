@@ -13,3 +13,7 @@ target_link_libraries(single_picture ${OpenCV_LIBS})
 add_executable(aruco_live aruco_live.cpp aruco.cpp)
 
 target_link_libraries(aruco_live -llccv ${OpenCV_LIBS})
+
+add_executable(calibrate_camera calibrate_camera.cpp)
+
+target_link_libraries(calibrate_camera ${OpenCV_LIBS})

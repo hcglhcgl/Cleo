@@ -235,7 +235,7 @@ void UMission::runMission() { /// current mission number
           /*case 1:
             ended = mission_guillotine(missionState);
             break;
-          /*case 2:
+          case 2:
             ended = mission_seesaw(missionState);
             break;
           case 2:
@@ -243,8 +243,8 @@ void UMission::runMission() { /// current mission number
             break;
           case 2:
             ended = mission_racetrack(missionState);
-            break;*/
-          /*case 1:
+            break;
+          case 1:
             ended = mission_circleOfHell(missionState);
             break;*/
           case 1:
@@ -752,7 +752,7 @@ void UMission::setArm(int armPose) {
 
   //Can NOT use 'time' here 
   snprintf(lines[line++], MAX_LEN, "servo=2, pservo=%d, vservo=0", armPose);
-  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=%d, vservo=0", armPose);
+  snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d, vservo=0", armPose);
 
   sendAndActivateSnippet(lines, line);
 }
@@ -771,10 +771,10 @@ bool UMission::mission_dummy(int & state) {
 
       //parkArm();
 
-      
-      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=1, pservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=1, pservo=100");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=100");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=100");
+
 
       sendAndActivateSnippet(lines, line);
 
