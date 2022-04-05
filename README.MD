@@ -3,19 +3,19 @@
 ## SSH
 All commands are used in Linux
 
-SHH onto Cleo
+### SHH onto Cleo
 ```bash
 ssh local@10.209.232.84
 ```
 - Password: grenen
 
-SSH folder from Cleo onto personal computer
+### SSH folder from Cleo onto personal computer
 - Create folder (e.g. Cleo_files)
 ```bash
 sshfs local@192.168.43.38:/ /home/magnus/Cleo_files/
 ```
 
-Unmount Folder "Cleo_files"
+### Unmount Folder "Cleo_files"
 ```bash
 sudo umount Cleo_files
 ```
@@ -27,11 +27,11 @@ sudo umount Cleo_files
 - ssh local@192.168.43.38
 
 ## Hotspot
-Change your hotspot to:
+### Change your hotspot to:
 - SSID "jul"
 - password "12345677"
 
-Add/change device Cleo should connect to:
+### Add/change device Cleo should connect to:
 - SSH onto Cleo
 ```bash
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
