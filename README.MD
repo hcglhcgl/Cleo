@@ -34,6 +34,13 @@ Change your hotspot to:
 - SSID "jul"
 - password "12345677"
 
+Add/change device Cleo should connect to:
+- SSH onto Cleo
+```bash
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+```
+- Copy another hotspot-device to add/change
+
 
 ## Run script from Visual Studio Code
 ```bash
