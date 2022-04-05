@@ -164,6 +164,7 @@ void UMission::parkArm() {
     snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
     snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : time=1");
     sendAndActivateSnippet(lines, line);
+
     while(!(bridge->event->isEventSet(9))) {
         alreadyParked = false;
     }
@@ -194,15 +195,15 @@ void UMission::setArm(int armPose) {
  * The loop also handles manual override for the gamepad, and resumes
  * when manual control is released.
  * */
-void UMission::runMission() { /// current mission number
+void UMission::runMission() {
   mission = fromMission;
   int missionOld = mission;
   bool regbotStarted = false;
-  /// end flag for current mission
+  // end flag for current mission
   bool ended = false;
-  /// manuel override - using gamepad
+  // manuel override - using gamepad
   bool inManual = false;
-  /// debug loop counter
+  // debug loop counter
   int loop = 0;
   // keeps track of mission state
   missionState = 0;
@@ -223,7 +224,7 @@ void UMission::runMission() { /// current mission number
     }
   }
   if (not bridge->info->isHeartbeatOK()) { // heartbeat should come at least once a second
-    play.say("Oops, no usable connection with robot.", 100);
+    //play.say("Oops, no usable connection with robot.", 100);
     //system("espeak \"Oops, no usable connection with robot.\" -ven+f4 -s130 -a60 2>/dev/null &"); 
     bridge->send("oled 3 Oops: Lost REGBOT!");
     printf("# ---------- error ------------\n");
@@ -243,7 +244,7 @@ void UMission::runMission() { /// current mission number
       usleep(20000);
       if (not inManual) {
         //system("espeak \"Mission paused.\" -ven+f4 -s130 -a40 2>/dev/null &"); 
-        play.say("Mission paused.", 90);
+        //play.say("Mission paused.", 90);
       }
       inManual = true;
       bridge->send("oled 3 GAMEPAD control\n");
@@ -267,19 +268,22 @@ void UMission::runMission() { /// current mission number
           case 1:
             ended = mission_guillotine(missionState);
             break;
-          case 20:
+          case 2:
             ended = mission_seesaw(missionState);
             break;
           case 30:
-            ended = mission_parking(missionState);
+            ended = mission_balls(missionState);
             break;
           case 40:
-            ended = mission_racetrack(missionState);
+            ended = mission_parking(missionState);
             break;
           case 50:
-            ended = mission_circleOfHell(missionState);
+            ended = mission_racetrack(missionState);
             break;
           case 60:
+            ended = mission_circleOfHell(missionState);
+            break;
+          case 70:
             ended = mission_dummy(missionState);
             break;
           default:
@@ -347,7 +351,7 @@ void UMission::runMission() { /// current mission number
   bridge->send("stop\n");
   snprintf(s, MSL, "Robot%s finished.\n", bridge->info->robotname);
   // system(s); 
-  play.say(s, 100);
+  //play.say(s, 100);
   printf("%s", s);
   bridge->send("oled 3 finished\n");
 }
@@ -375,7 +379,7 @@ bool UMission::mission_guillotine(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.5, acc=0.5, edgel=0, white=1 : dst=0.1");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.5, acc=0.5, edgel=0, white=1 : dist=0.1");
       snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : xl>15");
 
       // occupy Robot
@@ -419,8 +423,10 @@ bool UMission::mission_seesaw(int & state) {
       parkArm();
 
       snprintf(lines[line++], MAX_LEN, "vel=0.6, tr=0.2 : turn=90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0 : dist=1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : ir2<0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : ir2<0.2");
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");
@@ -448,6 +454,50 @@ bool UMission::mission_seesaw(int & state) {
   return finished;
 }
 
+bool UMission::mission_balls(int & state) {
+  bool finished = false;
+
+  switch (state) {
+    case 0: {
+      printf(">> Starting mission_balls\n");
+
+      state = 10;
+    } break;
+
+    case 10: {
+      int line = 0;
+
+      parkArm();
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : ir2<0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, : dist>0.5");
+
+      // occupy Robot
+      snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+
+      state = 11;
+      featureCnt = 0;
+    } break;
+
+    case 11: {
+      if (bridge->event->isEventSet(2)) {
+        state = 999;
+      }
+    } break;
+
+    case 999:
+    default:
+      printf(">> Mission_balls ended\n");
+
+      finished = true;
+      break;
+  }
+  return finished;
+}
+
 bool UMission::mission_parking(int & state) {
   bool finished = false;
 
@@ -462,18 +512,18 @@ bool UMission::mission_parking(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1, log = 1 : lv = 0");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : lv=0");
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-800 : time=1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.4");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.55");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.55");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.6, tr=0 : turn=-180");
-      snprintf(lines[line++], MAX_LEN, "vel=0 : time = 0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.1");
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=0 : time=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.4 : turn=180");
-      snprintf(lines[line++], MAX_LEN, "vel=0 : time = 0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.1");
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=3, vel=0 : dist=1");
@@ -513,7 +563,7 @@ bool UMission::mission_racetrack(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1, log = 1 : ir1 < 0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : ir1 < 0.2");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 < 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 > 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=2, acc=1.5, edger=0, white=1 : dist = 2");
@@ -557,34 +607,34 @@ bool UMission::mission_circleOfHell(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist = 0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist=0.2");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=180");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4,edgel=0,white=1, log = 1 : xl > 15");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4,edgel=0,white=1 : xl > 15");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn= 90 ");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4,edgel=0,white=1 : dist = 0.85");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4,edgel=0,white=1 : dist=0.85");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 < 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 > 0.5");
-      snprintf(lines[line++], MAX_LEN, "vel = 0 : time =  1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn= 45");
-      snprintf(lines[line++], MAX_LEN, "vel=0.6 : dist = 1.1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn= -70");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.5, ir1 < 0.25");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.2");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.5 : turn= 10");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.4 : turn= 360, ir1 < 0.2");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.2");
-      /*snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.5 : turn= 10");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.4 : turn= 360, ir1 < 0.2");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist = 0.3");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=45");
+      snprintf(lines[line++], MAX_LEN, "vel=0.6 : dist=1.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-70");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.5, ir1 < 0.25");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.5 : turn=10");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.4 : turn=360, ir1 < 0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      /*snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.5 : turn=10");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.4 : turn=360, ir1 < 0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.3");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir1 < 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir1 > 0.5");
-      snprintf(lines[line++], MAX_LEN, "vel= 0.4 : lv=1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn= -150 ");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : lv=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-150 ");
       snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=3");
       snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : ir1 < 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=0.25");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn= 110");
-      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : ir2<0.1");*/
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=110");
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : ir2 < 0.1");*/
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=5, vel=0 : dist=1");

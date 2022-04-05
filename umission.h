@@ -122,6 +122,7 @@ private:
    * \return true, when missionpart is finished */
   bool mission_guillotine(int & state);
   bool mission_seesaw(int & state);
+  bool mission_balls(int & state);
   bool mission_parking(int & state);
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);
