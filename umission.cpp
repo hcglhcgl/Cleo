@@ -380,7 +380,8 @@ bool UMission::mission_guillotine(int & state) {
       parkArm();
 
       //snprintf(lines[line++], MAX_LEN, "vel=0.5, acc=0.5, edgel=0, white=1 : dist=0.1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : xl>15");
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : xl>15");
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edger=0, white=1 : dist=0.09");
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=1, vel=0 : dist=1");
@@ -422,11 +423,44 @@ bool UMission::mission_seesaw(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.6, tr=0.2 : turn=90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=1");
-      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=500, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-500, vservo=0");
-      //snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : ir2<0.2");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.6, acc=0.6, edger=0, white=1 : dist=0.1");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, tr=0 : turn=90");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=700, vservo=0");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, : dist=0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, edger=0, white=1 : dist=0.99");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0, time=0.1");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist>0.1");
+
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : ir1<0.4");
+
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.6");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : xl > 15 ");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : xl > 15 ");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-125");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=2");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : ir1<0.2");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-990, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=990, vservo=0");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=1");
+
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");

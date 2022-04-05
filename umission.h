@@ -55,7 +55,7 @@ private:
   /// space for fabricated lines
   const static int MAX_LINES = 100;
   const static int MAX_LEN = 100;
-  const static int missionLineMax = 20;
+  const static int missionLineMax = 30; //20
   /** definition of array with c-strings for the mission snippets */
   char lineBuffer[missionLineMax][MAX_LEN];
   /** an array of pointers to mission lines */
