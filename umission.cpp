@@ -495,7 +495,6 @@ bool UMission::mission_balls_1(int & state) {
     case 10: {
       int line = 0;
 
-      snprintf(lines[line++], MAX_LEN, "vel=0, time=5");
       snprintf(lines[line++], MAX_LEN, "vel=0, time=0.1");
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
@@ -513,7 +512,13 @@ bool UMission::mission_balls_1(int & state) {
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-150, vservo=0");
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=150, vservo=0");
       snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-95");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : xl > 15");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : tilt < 0");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl > 15");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4, edgel=0, white=1 : tilt > 0");
+
+
+      snprintf(lines[line++], MAX_LEN, "vel=0, time=2");
+      
 
 
 
@@ -530,6 +535,7 @@ bool UMission::mission_balls_1(int & state) {
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
+    
 
       state = 11;
       featureCnt = 0;
