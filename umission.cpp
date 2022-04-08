@@ -495,7 +495,7 @@ bool UMission::mission_balls_1(int & state) {
     case 10: {
       int line = 0;
 
-     
+      snprintf(lines[line++], MAX_LEN, "vel=0, time=5");
       snprintf(lines[line++], MAX_LEN, "vel=0, time=0.1");
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
@@ -505,7 +505,7 @@ bool UMission::mission_balls_1(int & state) {
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=990, vservo=0");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel = 0, white = 1, log = 1: tilt > 0");
-      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=0.1");//0.47
+      snprintf(lines[line++], MAX_LEN, "vel=0.6, edgel=0, white=1 : dist=0.1"); //0.47
       snprintf(lines[line++], MAX_LEN, "vel=0.6 : dist=0.37");
       snprintf(lines[line++], MAX_LEN, "vel=0.25, tr=0 : turn=25");
 
@@ -566,12 +566,16 @@ bool UMission::mission_balls_2(int & state) {
 
      
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.10");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-85"); // -90
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.10"); //10 
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.2"); // new
       snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-140");
-      snprintf(lines[line++], MAX_LEN, "vel=0.6, edger=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.32"); 
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-50"); //make more realiable solution? works 70-80% of the time
+
 
 
 
