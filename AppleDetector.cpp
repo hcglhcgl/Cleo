@@ -61,7 +61,7 @@ Mat AppleDetector::getCirclesMask(Mat gray, bool small) {
 		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 18, 180, 18, 10, 25);
 	}
 	else {
-		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 28, 20, 40);
+		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 28, 20, 45);
 	}
 
 	//create mask => used for getting the new hsv image only with the detected circles
@@ -205,4 +205,18 @@ Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
 	Point center = Point(c[0], c[1]);
 	int radius = c[2];
 	return c;
+}
+
+float AppleDetector::getDistance(int radius) {
+	//calculation of the focal length in pixels
+	//float f_mm = 3.04;
+	//float s_w_mm = 3.674;
+	//float img_w_p = 932;
+	//float f = (f_mm / s_w_mm) * img_w_p;
+
+	float width_ball_mm = 42;
+	int width_ball_pixels = (int)radius * 2;
+	int f = 771.17;
+	float distance = ((width_ball_mm / width_ball_pixels) * f) / 10;
+	return distance;
 }
