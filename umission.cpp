@@ -578,17 +578,32 @@ bool UMission::mission_balls_2(int & state) {
 
       //snprintf(lines[line++], MAX_LEN, "vel=-0.4, edgel=0, white=1 : tilt < 5");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1  : tilt>0");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.21");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.28");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=97");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.12");
+      
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
-      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.20");
-      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist=0.10");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-890, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=890, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.80");
+
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist=0.14");
       snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-100");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.8");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist=0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.37");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.20");
+      snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0 : turn=-25");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.20");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-150, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=150, vservo=0");
+      
+      //snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=190");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
+
+
      
       // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
       // snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-85"); // -90

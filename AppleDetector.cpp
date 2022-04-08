@@ -8,20 +8,65 @@
 using namespace std;
 using namespace cv;
 
-AppleDetector::AppleDetector(void) {
 
+AppleDetector::AppleDetector(void) {
+	//vector<Vec3f> circles;
 }
 
-Mat getCirclesMask(Mat gray) {
+vector<Vec3f> AppleDetector::getCircles(Mat tresholded) {
+	vector<Vec3f> goodCircles;
+
+	for (size_t i = 0; i < circles.size(); i++) {
+		Vec3i c = circles[i];
+		Point center = Point(c[0], c[1]);
+		int radius = c[2];
+		int left_x = c[0] - radius;
+		int left_y = c[1] - radius;
+
+		Rect crop(left_x, left_y, (2*radius), (2 * radius));
+		Mat res = tresholded(crop);
+
+		int white = countNonZero(res);
+		int full = res.rows * res.cols;
+		//cout << "white: " << res.rows;
+		//cout << "full: " << res.cols;
+		float percentage = ((float)white / (float)full * 100);
+		//int black = (res.rows * res.cols) - white;
+
+		if (percentage > 50) {
+			goodCircles.push_back(c);
+			cout << "percentage: " << percentage << "radius" << radius;
+			imshow("Display window", res);
+			waitKey(0);
+		}
+	}
+
+	return goodCircles;
+}
+
+Mat AppleDetector::getCirclesMask(Mat gray, bool small) {
 	//detect circles in a gray image
-	vector<Vec3f> circles;
+	////vector<Vec3f> circles;
 	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 25, 100, 30, 10, 30);
 	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 25);
-	HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 50, 90, 30, 20, 80);
+	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 50, 90, 30, 20, 80);
+	// //good one
+	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 10, 200, 25, 2, 35);
+	/////HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 20, 230, 20, 10, 35);
+	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 10, 120, 12, 2, 10);
+	HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 18, 180, 18, 10, 25);//small
+	//HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 28, 20, 40);//big
+
+	if (small) {
+		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 18, 180, 18, 10, 25);
+	}
+	else {
+		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 28, 20, 40);
+	}
 
 	//create mask => used for getting the new hsv image only with the detected circles
 	Mat mask = cv::Mat::zeros(gray.rows, gray.cols, CV_8UC1);
-
+	medianBlur(gray, gray, 3 );
 	//loop through the circles
 	for (size_t i = 0; i < circles.size(); i++) {
 		Vec3i c = circles[i];
@@ -73,7 +118,7 @@ Mat AppleDetector::findWhiteApples(Mat image) {
 		gray = imageReducer(gray, 40);
 
 		//get mask of found circles
-		mask = getCirclesMask(gray);
+		mask = getCirclesMask(gray, true);
 
 		//create mapped image from the original hsv using the mask
 		hsv.copyTo(mapped, mask);
@@ -95,7 +140,7 @@ Mat AppleDetector::findWhiteApples(Mat image) {
 		return output;
 }
 
-Mat AppleDetector::findOrangeApples(Mat image) {
+Mat AppleDetector::findOrangeApples(Mat image, bool small) {
 
 	//Mat img = imread(src);
 	Mat img = image;
@@ -110,21 +155,24 @@ Mat AppleDetector::findOrangeApples(Mat image) {
 	int lowH = 0;
 	int highH = 50;
 
-	int lowS = 140;
+	int lowS = 90;
 	int highS = 255;
 
-	int lowV = 90;
+	int lowV = 80;
 	int highV = 255;
 
 	cvtColor(img, gray, COLOR_BGR2GRAY);
+	//Mat bgr[3];
+	//split(image, bgr);
+	//gray = bgr[2];
 	cvtColor(img, hsv, COLOR_BGR2HSV);
 
 	//remove upper x % of the picture
 	gray = imageReducer(gray, 40);
 
 	//get mask of found circles
-	mask = getCirclesMask(gray);
-
+	mask = getCirclesMask(gray, small);
+	//return mask; 
 	//create mapped image from the original hsv using the mask
 	hsv.copyTo(mapped, mask);
 
@@ -139,4 +187,22 @@ Mat AppleDetector::findOrangeApples(Mat image) {
 
 	//imshow("Display window", output);
 	return output;
+}
+
+Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
+	Mat res = findOrangeApples(image, true);
+	vector<Vec3f> resultVector = getCircles(res);
+
+	if (resultVector.empty()) {
+		Mat res = findOrangeApples(image, false);
+		//imshow("Display window", res);
+		//waitKey(0);
+
+		resultVector = getCircles(res);
+	}
+
+	Vec3i c = resultVector[0];
+	Point center = Point(c[0], c[1]);
+	int radius = c[2];
+	return c;
 }
