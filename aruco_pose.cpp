@@ -1,19 +1,20 @@
+#include "aruco_pose.hpp"
 #include <iostream>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <string>
-#include "aruco/aruco.hpp"
 
 #include <lccv.hpp>
 #include <opencv2/opencv.hpp>
 
-using namespace std;
 using namespace cv;
 
-Aruco_pose::Aruco_finder()
+CVPositions::CVPositions()
 {
     this->ar_finder = Aruco_finder();
     ar_finder.set_markersize(0.15);
+
+    this->apple_detector = AppleDetector();
 
     //Aspect ratio of pi cam 2 = 1.3311
     this->cam.options->video_width=932;
@@ -21,16 +22,16 @@ Aruco_pose::Aruco_finder()
     this->cam.options->framerate=30;
     this->cam.options->verbose=true;
 }
-void Aruco_pose::init(bool show_stream) 
+void CVPositions::init(bool show_stream) 
 {
     if (show_stream) {
         this->stream = true;
-        cv::namedWindow("Aruco",cv::WINDOW_NORMAL);
+        cv::namedWindow("Video",cv::WINDOW_NORMAL);
     }
     this->cam.startVideo();
 }
 
-void Aruco_pose::shutdown(void) 
+void CVPositions::shutdown(void) 
 {
     cam.stopVideo();
 
@@ -39,7 +40,7 @@ void Aruco_pose::shutdown(void)
     }
 }
 
-pose_t Aruco_pose::find_pose(bool which_aruco)
+pose_t CVPositions::find_aruco_pose(bool which_aruco)
 {
     if (which_aruco == WHITE) {
         std::cout<<"Searching for white aruco"<<std::endl;
@@ -48,22 +49,59 @@ pose_t Aruco_pose::find_pose(bool which_aruco)
         std::cout<<"Searching for orange aruco"<<std::endl;
     } 
 
+    pose_t aruco_location;
     int ch=0;
+
     while(ch!=27){
-        if(this->!cam.getVideoFrame(image,1000)){
+        if(!this->cam.getVideoFrame(image,1000)){
             std::cout<<"Timeout error"<<std::endl;
         }
         else{
-            this->aruco_location = ar_finder.find_aruco(&image,true, WHITE);
-            if(this->aruco_location.valid == true) {
-                cout << "ID: " << this->aruco_location.id << " x: " << this->aruco_location.x << " y: " << this->aruco_location.y << " z: " << this->aruco_location.z << endl;
-            }
+            aruco_location = ar_finder.find_aruco(&image,true, WHITE);
+            
             if(this->stream) { 
-                cv::imshow("Aruco",image);
+                cv::imshow("Video",image);
                 ch=cv::waitKey(10);
             }
+
+            if(aruco_location.valid == true) {
+                cout << "ID: " << aruco_location.id << " x: " << aruco_location.x << " y: " << aruco_location.y << " z: " << aruco_location.z << endl;
+            }
+            
         }
     }
-    
-    
+}
+
+pose_t CVPositions::find_apple_pose(bool which_color)
+{
+    if (which_color == WHITE) {
+        std::cout<<"Searching for white balls"<<std::endl;
+    }
+    else if (which_color == RED) {
+        std::cout<<"Searching for orange balls"<<std::endl;
+    } 
+
+    pose_t apple_pose;
+    int ch=0;
+
+    while(ch!=27){
+        if(!this->cam.getVideoFrame(image,1000)){
+            std::cout<<"Timeout error"<<std::endl;
+        }
+        else {
+            if(which_color == RED) {
+                apple_pose = apple_detector.getOrangeAppleCoordinates(image);
+            }
+            
+            if(this->stream) { 
+                cv::imshow("Video",image);
+                ch=cv::waitKey(10);
+            }
+
+            if(apple_pose.valid == true) {
+                cout << "x: " << apple_pose.x << " y: " << apple_pose.y << " z: " << apple_pose.z << endl;
+            }
+            
+        }
+    }
 }

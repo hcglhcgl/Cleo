@@ -1,8 +1,9 @@
-#include "types.h"
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/core/core.hpp"
-#include <opencv2/aruco.hpp> //added
+#include <opencv2/aruco.hpp>
+
+#include "types.h"
 
 #define RED 0
 #define WHITE 1
