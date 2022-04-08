@@ -190,14 +190,13 @@ Mat AppleDetector::findOrangeApples(Mat image, bool small) {
 }
 
 Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
-	Mat res = findOrangeApples(image, true);
+	//Search for big balls first
+	Mat res = findOrangeApples(image, false);
 	vector<Vec3f> resultVector = getCircles(res);
 
 	if (resultVector.empty()) {
-		Mat res = findOrangeApples(image, false);
-		//imshow("Display window", res);
-		//waitKey(0);
-
+		//Search for small balls
+		Mat res = findOrangeApples(image, true);
 		resultVector = getCircles(res);
 	}
 
@@ -223,8 +222,31 @@ float AppleDetector::getDistance(int radius) {
 
 pose_t AppleDetector::getOrangeApplePose(Mat image) {
 	pose_t orange_apple_pose;
+	orange_apple_pose.valid = false;
 
-	Vec3i vector = getOrangeAppleCoordinates(image);
-	orange_apple_pose.x = vector[0]
-	orange_apple_pose.y = vector[1]
+	//Search for big balls first
+	Mat res = findOrangeApples(image, false);
+	vector<Vec3f> resultVector = getCircles(res);
+
+	if (resultVector.empty()) {
+		//Search for small balls
+		Mat res = findOrangeApples(image, true);
+		resultVector = getCircles(res);
+	}
+
+	//If resultvector is still empty, no balls have been found
+	if (resultVector.empty()) {
+		orange_apple_pose.valid = false;
+		return orange_apple_pose;
+	}
+
+	Vec3i vector = resultVector[0];
+
+	int radius = vector[2];
+	orange_apple_pose.radius = radius;
+
+	orange_apple_pose.x = vector[0];
+	orange_apple_pose.y = vector[1];
+	orange_apple_pose.z = getDistance(radius);
+	return orange_apple_pose;
 }

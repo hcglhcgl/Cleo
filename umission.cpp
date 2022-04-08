@@ -265,34 +265,34 @@ void UMission::runMission() {
           //bridge->send("oled 3 running AUTO\n");
         }
         switch(mission) {
-          case 1:
+          case 10:
             ended = mission_guillotine(missionState);
             break;
-          case 2:
+          case 20:
             ended = mission_balls_1(missionState);
             break;
-          case 3:
+          case 30:
             ended = mission_seesaw(missionState);
             break;
-          case 4:
+          case 40:
             ended = mission_balls_2(missionState);
             break;
-          case 5:
+          case 1:
             ended = mission_stairs(missionState);
             break;
-          case 50:
+          case 60:
             ended = mission_parking(missionState);
             break;
-          case 60:
+          case 70:
             ended = camera_mission(missionState);
             break;
-          case 70:
+          case 80:
             ended = mission_racetrack(missionState);
             break;
-          case 80:
+          case 90:
             ended = mission_circleOfHell(missionState);
             break;
-          case 90:
+          case 100:
             ended = mission_dummy(missionState);
             break;
           default:
@@ -627,6 +627,27 @@ bool UMission::mission_stairs(int & state) {
 
     case 10: {
       int line = 0;
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : dist=0.1");
+
+
+      for (int i = 0; i < 2; i++) {
+        
+        snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : lv=0");
+
+        snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
+        snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
+
+
+        snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : dist = 0.2");
+
+        snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
+        snprintf(lines[line++], MAX_LEN, "servo=3, pservo=700, vservo=0");
+
+        snprintf(lines[line++], MAX_LEN, "vel=-0.3, edgel=0, white=1 : dist = 0.05");
+      }
+
+      
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");

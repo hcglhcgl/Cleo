@@ -90,10 +90,24 @@ pose_t CVPositions::find_apple_pose(bool which_color)
         }
         else {
             if(which_color == RED) {
-                apple_pose = apple_detector.getOrangeAppleCoordinates(image);
+                apple_pose = apple_detector.getOrangeApplePose(image);
             }
             
             if(this->stream) { 
+                if(apple_pose.valid) {
+                    Point center = Point(apple_pose.x, apple_pose.y);
+                
+                    circle(image, center, apple_pose.radius, Scalar(255, 0, 255), 3, LINE_AA);
+                    
+                    putText(image,
+                    text,
+                    Point(10, image.rows / 2), //top-left position
+                    FONT_HERSHEY_DUPLEX,
+                    1.0,
+                    CV_RGB(118, 185, 0), //font color
+                    2);
+                }
+    
                 cv::imshow("Video",image);
                 ch=cv::waitKey(10);
             }
@@ -104,4 +118,5 @@ pose_t CVPositions::find_apple_pose(bool which_color)
             
         }
     }
+    shutdown();
 }

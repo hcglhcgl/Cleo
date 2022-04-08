@@ -4,7 +4,6 @@ struct pose_t
     double x;
     double y;
     double z;
-    double th;
-    long num_pose;
+    int radius;
     int id;
 };
