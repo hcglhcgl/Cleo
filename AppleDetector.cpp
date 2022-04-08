@@ -18,7 +18,7 @@ vector<Vec3f> AppleDetector::getCircles(Mat tresholded) {
 
 	for (size_t i = 0; i < circles.size(); i++) {
 		Vec3i c = circles[i];
-		Point center = Point(c[0], c[1]);
+		//Point center = Point(c[0], c[1]);
 		int radius = c[2];
 		int left_x = c[0] - radius;
 		int left_y = c[1] - radius;
@@ -201,8 +201,8 @@ Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
 	}
 
 	Vec3i c = resultVector[0];
-	Point center = Point(c[0], c[1]);
-	int radius = c[2];
+	//Point center = Point(c[0], c[1]);
+	//int radius = c[2];
 	return c;
 }
 

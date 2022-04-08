@@ -161,13 +161,13 @@ void UMission::parkArm() {
     snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-%d", parkLoc);
     
     //Waiting for 1 sec before continuing
-    snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
-    snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : time=1");
+    //snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+    //snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : time=1");
     sendAndActivateSnippet(lines, line);
 
-    while(!(bridge->event->isEventSet(9))) {
+    /*while(!(bridge->event->isEventSet(9))) {
         alreadyParked = false;
-    }
+    }*/
 
     alreadyParked = true;
   }
@@ -280,11 +280,11 @@ void UMission::runMission() {
           case 1:
             ended = mission_stairs(missionState);
             break;
-          case 60:
+          case 2:
             ended = mission_parking(missionState);
             break;
           case 70:
-            ended = camera_mission(missionState);
+            ended = mission_appleTree(missionState);
             break;
           case 80:
             ended = mission_racetrack(missionState);
@@ -381,6 +381,7 @@ bool UMission::mission_guillotine(int & state) {
         state = 10;
       state = 10;
       printf(">> Starting mission guillotine\n");
+      play.say("Starting mission guillotine", 100);
     } break;
 
     case 10: {
@@ -423,6 +424,7 @@ bool UMission::mission_balls_1(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission_balls_1\n");
+      play.say("Starting mission balls", 100);
 
       state = 10;
     } break;
@@ -505,6 +507,7 @@ bool UMission::mission_seesaw(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission_seesaw\n");
+      play.say("Starting mission seesaw", 100);
 
       state = 10;
     } break;
@@ -564,6 +567,7 @@ bool UMission::mission_balls_2(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission_balls_2\n");
+      play.say("Starting mission balls 2", 100);
 
       state = 10;
     } break;
@@ -621,6 +625,7 @@ bool UMission::mission_stairs(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission_stairs\n");
+      play.say("Starting mission stairs", 100);
 
       state = 10;
     } break;
@@ -631,23 +636,20 @@ bool UMission::mission_stairs(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : dist=0.1");
 
 
-      for (int i = 0; i < 2; i++) {
+      for (int i = 1; i < 4; i++) {
         
         snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : lv=0");
 
         snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
         snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
 
-
         snprintf(lines[line++], MAX_LEN, "vel=0.3, edgel=0, white=1 : dist = 0.2");
 
         snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
         snprintf(lines[line++], MAX_LEN, "servo=3, pservo=700, vservo=0");
 
-        snprintf(lines[line++], MAX_LEN, "vel=-0.3, edgel=0, white=1 : dist = 0.05");
+        snprintf(lines[line++], MAX_LEN, "vel=-0.3, edgel=0, white=1 : dist = 0.07");
       }
-
-      
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=2, vel=0 : dist=1");
@@ -682,6 +684,8 @@ bool UMission::mission_parking(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission parking\n");
+      play.say("Starting mission parking", 100);
+
       state = 10;
     } break;
 
@@ -733,6 +737,8 @@ bool UMission::mission_racetrack(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission racetrack\n");
+      play.say("Starting mission racetrack", 100);
+
       state = 10;
     } break;
 
@@ -771,12 +777,12 @@ bool UMission::mission_racetrack(int & state) {
   return finished;
 }
 
-bool UMission::camera_mission(int & state){
+bool UMission::mission_appleTree(int & state){
   bool finished = false;
 
   switch (state) {
     case 0: {
-      printf(">> Starting mission circle of Hell\n");
+      printf(">> Starting camera mission\n");
       state = 10;
     } break;
 
@@ -784,7 +790,14 @@ bool UMission::camera_mission(int & state){
       printf(">> Test of measuring distance\n");
     }
       break;
+
+    case 999:
+    default:
+      printf(">> Camera mission ended\n");
+      finished = true;
+      break;
   }
+  return finished;
 }
 
 bool UMission::mission_circleOfHell(int & state) {
@@ -793,6 +806,8 @@ bool UMission::mission_circleOfHell(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission circle of Hell\n");
+      play.say("Starting mission circle of hell", 100);
+
       state = 10;
     } break;
 
@@ -860,6 +875,8 @@ bool UMission::mission_dummy(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission dummy\n");
+      play.say("Starting mission dummy", 100);
+
       state = 10;
     } break;
 

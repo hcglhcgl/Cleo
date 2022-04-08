@@ -1,3 +1,5 @@
+#ifndef TYPES_H
+#define TYPES_H
 struct pose_t
 {
     bool valid;
@@ -7,3 +9,5 @@ struct pose_t
     int radius;
     int id;
 };
+
+#endif
