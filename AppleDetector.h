@@ -19,6 +19,6 @@ public:
 	Mat findOrangeApples(Mat image, bool small);
 	Mat findOrangeApples2(Mat image);
 	Vec3i getOrangeAppleCoordinates(Mat image);
-	pose_t getOrangeApplePose(Mat image)
+	pose_t getOrangeApplePose(Mat image);
 	float getDistance(int radius);
 };

@@ -121,9 +121,10 @@ private:
    * \param state is the current state of the mission
    * \return true, when missionpart is finished */
   bool mission_guillotine(int & state);
-  bool mission_seesaw(int & state);
   bool mission_balls_1(int & state);
+  bool mission_seesaw(int & state);
   bool mission_balls_2(int & state);
+  bool mission_stairs(int & state);
   bool mission_parking(int & state);
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);

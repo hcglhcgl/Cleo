@@ -220,3 +220,11 @@ float AppleDetector::getDistance(int radius) {
 	float distance = ((width_ball_mm / width_ball_pixels) * f) / 10;
 	return distance;
 }
+
+pose_t AppleDetector::getOrangeApplePose(Mat image) {
+	pose_t orange_apple_pose;
+
+	Vec3i vector = getOrangeAppleCoordinates(image);
+	orange_apple_pose.x = vector[0]
+	orange_apple_pose.y = vector[1]
+}
