@@ -128,6 +128,7 @@ private:
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);
   bool mission_dummy(int & state);
+  bool camera_mission(int & state);
   
   
   

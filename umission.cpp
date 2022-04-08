@@ -271,14 +271,17 @@ void UMission::runMission() {
           case 20:
             ended = mission_seesaw(missionState);
             break;
-          case 1:
+          case 30:
             ended = mission_balls_1(missionState);
             break;
-           case 2:
+           case 1:
             ended = mission_balls_2(missionState);
             break;
           case 40:
             ended = mission_parking(missionState);
+            break;
+          case 45:
+            ended = camera_mission(missionState);
             break;
           case 50:
             ended = mission_racetrack(missionState);
@@ -487,7 +490,7 @@ bool UMission::mission_balls_1(int & state) {
 
   switch (state) {
     case 0: {
-      printf(">> Starting mission_balls\n");
+      printf(">> Starting mission_balls_1\n");
 
       state = 10;
     } break;
@@ -514,7 +517,6 @@ bool UMission::mission_balls_1(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-95");
       //snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : tilt < 0");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl > 15");
-      snprintf(lines[line++], MAX_LEN, "vel=-0.4, edgel=0, white=1 : tilt > 0");
 
 
       snprintf(lines[line++], MAX_LEN, "vel=0, time=2");
@@ -549,7 +551,7 @@ bool UMission::mission_balls_1(int & state) {
 
     case 999:
     default:
-      printf(">> Mission_balls ended\n");
+      printf(">> Mission_balls_1 ended\n");
 
       finished = true;
       break;
@@ -562,7 +564,7 @@ bool UMission::mission_balls_2(int & state) {
 
   switch (state) {
     case 0: {
-      printf(">> Starting mission_balls\n");
+      printf(">> Starting mission_balls_2\n");
 
       state = 10;
     } break;
@@ -570,17 +572,34 @@ bool UMission::mission_balls_2(int & state) {
     case 10: {
       int line = 0;
 
-     
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-85"); // -90
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.10"); //10 
+      parkArm();
+
+//temp
+
+      //snprintf(lines[line++], MAX_LEN, "vel=-0.4, edgel=0, white=1 : tilt < 5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1  : tilt>0");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.21");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
       snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.2"); // new
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-140");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.32"); 
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-50"); //make more realiable solution? works 70-80% of the time
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.20");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist=0.10");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-100");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.8");
+     
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-85"); // -90
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.10"); //10 
+      // snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-900, vservo=0");
+      // snprintf(lines[line++], MAX_LEN, "servo=3, pservo=900, vservo=0");
+      // snprintf(lines[line++], MAX_LEN, "vel=0: time=0.2"); // new
+      // snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-140");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist=0.5");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.32"); 
+      // snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0 : turn=-50"); //make more realiable solution? works 70-80% of the time
 
 
 
@@ -611,7 +630,7 @@ bool UMission::mission_balls_2(int & state) {
 
     case 999:
     default:
-      printf(">> Mission_balls ended\n");
+      printf(">> Mission_balls_2 ended\n");
 
       finished = true;
       break;
@@ -712,6 +731,10 @@ bool UMission::mission_racetrack(int & state) {
       break;
   }
   return finished;
+}
+
+bool UMission::camera_mission(int & state){
+  bool finished = false;
 }
 
 bool UMission::mission_circleOfHell(int & state) {
