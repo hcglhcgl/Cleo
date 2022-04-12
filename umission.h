@@ -78,6 +78,7 @@ public:
   inline bool logIsOpen() { return logMission != NULL; };
 
   void parkArm();
+  void disableArm();
   void setArm(int armPose);
   /**
    * Run the missions
