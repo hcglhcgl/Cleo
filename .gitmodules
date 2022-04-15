@@ -1,0 +1,3 @@
+[submodule "BallDetection"]
+	path = BallDetection
+	url = https://github.com/hcglhcgl/BallDetection.git
