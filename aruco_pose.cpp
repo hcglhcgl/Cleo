@@ -70,6 +70,7 @@ pose_t CVPositions::find_aruco_pose(bool which_aruco)
             
         }
     }
+    return aruco_location;
 }
 
 pose_t CVPositions::find_apple_pose(bool which_color)
@@ -96,7 +97,8 @@ pose_t CVPositions::find_apple_pose(bool which_color)
             if(this->stream) { 
                 if(apple_pose.valid) {
                     Point center = Point(apple_pose.x, apple_pose.y);
-                
+                    string text = to_string(apple_pose.z);
+
                     circle(image, center, apple_pose.radius, Scalar(255, 0, 255), 3, LINE_AA);
                     
                     putText(image,
@@ -119,4 +121,5 @@ pose_t CVPositions::find_apple_pose(bool which_color)
         }
     }
     shutdown();
+    return apple_pose;
 }

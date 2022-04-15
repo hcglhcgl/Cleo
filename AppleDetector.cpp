@@ -18,12 +18,13 @@ vector<Vec3f> AppleDetector::getCircles(Mat tresholded) {
 
 	for (size_t i = 0; i < circles.size(); i++) {
 		Vec3i c = circles[i];
-		Point center = Point(c[0], c[1]);
+		//Point center = Point(c[0], c[1]);
 		int radius = c[2];
 		int left_x = c[0] - radius;
 		int left_y = c[1] - radius;
 
 		Rect crop(left_x, left_y, (2*radius), (2 * radius));
+		
 		Mat res = tresholded(crop);
 
 		int white = countNonZero(res);
@@ -35,9 +36,9 @@ vector<Vec3f> AppleDetector::getCircles(Mat tresholded) {
 
 		if (percentage > 50) {
 			goodCircles.push_back(c);
-			cout << "percentage: " << percentage << "radius" << radius;
-			imshow("Display window", res);
-			waitKey(0);
+			//cout << "percentage: " << percentage << " radius: " << radius << endl;
+			//imshow("Display window", res);
+			//waitKey(0);
 		}
 	}
 
@@ -61,7 +62,7 @@ Mat AppleDetector::getCirclesMask(Mat gray, bool small) {
 		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 18, 180, 18, 10, 25);
 	}
 	else {
-		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 28, 20, 45);
+		HoughCircles(gray, circles, HOUGH_GRADIENT, 1, 38, 180, 24, 20, 60);
 	}
 
 	//create mask => used for getting the new hsv image only with the detected circles
@@ -81,12 +82,13 @@ Mat AppleDetector::getCirclesMask(Mat gray, bool small) {
 Mat imageReducer(Mat gray, int percentage) {
 	//turnes percentage of the rows black in a top-down approach
 	int noOfRows = int(gray.rows / 100 * percentage);
-	for (int y = 0; y < noOfRows; ++y) {
-		for (int x = 0; x < gray.cols; ++x)
+	for (int y = gray.rows; y > (gray.rows - noOfRows); y--) {
+		for (int x = 0; x < gray.cols; x++)
 		{
 			gray.at<bool>(y, x) = 0;
 		}
 	}
+	imwrite("reduced.jpg", gray);
 	return gray;
 }
 
@@ -168,7 +170,7 @@ Mat AppleDetector::findOrangeApples(Mat image, bool small) {
 	cvtColor(img, hsv, COLOR_BGR2HSV);
 
 	//remove upper x % of the picture
-	gray = imageReducer(gray, 40);
+	gray = imageReducer(gray, 30);
 
 	//get mask of found circles
 	mask = getCirclesMask(gray, small);
@@ -178,20 +180,22 @@ Mat AppleDetector::findOrangeApples(Mat image, bool small) {
 
 	//treshold the mapped image using the tresholds
 	inRange(mapped, Scalar(lowH, lowS, lowV), Scalar(highH, highS, highV), tresholded);
-
+	
 	//create structuring elements for the morphological operations
 	Mat circleElement = getStructuringElement(MORPH_ELLIPSE, Size(11, 11), Point(-1, -1));
-
+	
 	//CLOSING - filling in the holes
 	morphologyEx(tresholded, output, MORPH_CLOSE, circleElement, Point(-1, -1), 2);
-
+	
 	//imshow("Display window", output);
 	return output;
 }
 
 Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
 	//Search for big balls first
-	Mat res = findOrangeApples(image, false);
+	Mat res;
+	res = findOrangeApples(image, false);
+	
 	vector<Vec3f> resultVector = getCircles(res);
 
 	if (resultVector.empty()) {
@@ -201,8 +205,8 @@ Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
 	}
 
 	Vec3i c = resultVector[0];
-	Point center = Point(c[0], c[1]);
-	int radius = c[2];
+	//Point center = Point(c[0], c[1]);
+	//int radius = c[2];
 	return c;
 }
 
@@ -227,11 +231,14 @@ pose_t AppleDetector::getOrangeApplePose(Mat image) {
 	//Search for big balls first
 	Mat res = findOrangeApples(image, false);
 	vector<Vec3f> resultVector = getCircles(res);
-
 	if (resultVector.empty()) {
 		//Search for small balls
 		Mat res = findOrangeApples(image, true);
 		resultVector = getCircles(res);
+	}
+	else
+	{
+		orange_apple_pose.valid = true;
 	}
 
 	//If resultvector is still empty, no balls have been found
@@ -239,7 +246,10 @@ pose_t AppleDetector::getOrangeApplePose(Mat image) {
 		orange_apple_pose.valid = false;
 		return orange_apple_pose;
 	}
-
+	else
+	{
+		orange_apple_pose.valid = true;
+	}
 	Vec3i vector = resultVector[0];
 
 	int radius = vector[2];

@@ -24,7 +24,7 @@ Aruco_finder::Aruco_finder()
     aruco_pose.x = 0;
 	aruco_pose.y = 0;
 	aruco_pose.z = 0;
-	aruco_pose.th = 0;
+	aruco_pose.radius = 0;
     aruco_pose.id = 0;
     aruco_pose.valid = false;
     
@@ -46,8 +46,6 @@ void Aruco_finder::set_markersize(float marker_size) {
     this->markerSize = marker_size;
 }
 pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_white) {
-
-    bool marker_found = false;
 
     Mat gray;
     cvtColor(*frame, gray,COLOR_BGR2GRAY);
@@ -104,7 +102,7 @@ pose_t Aruco_finder::find_aruco(cv::Mat *frame, bool show_image, bool red_or_whi
         aruco_pose.y = tvecs[wantedIDIndex][1];
         aruco_pose.z = tvecs[wantedIDIndex][2];
 
-        aruco_pose.th = 0;
+        aruco_pose.radius = 0;
         //Aruco ID
         aruco_pose.id = detectedIDs[wantedIDIndex];
     }
