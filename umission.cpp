@@ -616,7 +616,7 @@ bool UMission::mission_seesaw(int & state) {
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
 
-      state = 11;
+      state = 13;
       featureCnt = 0;
     } break;
 
@@ -859,7 +859,67 @@ bool UMission::mission_stairs(int & state) {
         state = 999;
       }
     } break;
+  case 21: {
+      int line = 0;
 
+      printf("case 21 my friend \n");
+      snprintf(lines[line++], MAX_LEN, "vel=0.9 : dist= 0.45");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time= 0.6");
+
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.35 : turn=186");
+      
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : ir2 < 0.2");
+
+      
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : ir1 > 0.3");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.45");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-27");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : dist=1");
+
+
+
+      // // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.21 : turn=-190");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : ir2 < 0.1");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 1.05");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.2");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : ir1 > 0.4");
+
+
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.35");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.6");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.5");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
+
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.3");
+      // snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      state = 22;
+      featureCnt = 0;
+    } break;
+    
+    case 22: {
+      if (bridge->event->isEventSet(9)) {
+        state = 999;
+      }
+    } break;
     case 999:
     default:
       printf(">> Mission_stairs ended\n");
@@ -884,7 +944,7 @@ bool UMission::mission_parking(int & state) {
     case 10: {
       int line = 0;
 
-      parkArm();
+    
 
       snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.35, edgel=0, white=1 : lv=0");    //vel=0.25
