@@ -48,3 +48,16 @@ cd /Cam_mission/build
 make
 ./mission
 ```
+## Take a photo/video manually in the correct resolution
+- Photo
+```bash
+cd  ~/Cam_mission/photos
+libcamera-jpeg -o pic.jpg --width 932 --height 700
+```
+- Video
+```bash
+cd ~/Cam_mission/videos
+libcamera-vid -t 10000 -o video.h264 --width 932 --height 700
+```
+
+
