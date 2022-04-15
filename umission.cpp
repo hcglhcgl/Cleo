@@ -308,13 +308,13 @@ void UMission::runMission() {
           case 50:
             ended = mission_stairs(missionState);
             break;
-          case 1:
+          case 60:
             ended = mission_parking(missionState);
             break;
           case 70:
             ended = mission_parking_without_closing(missionState);
             break;
-          case 2:
+          case 80:
             ended = mission_parking_with_closing(missionState);
             break;
           case 90:
@@ -329,10 +329,10 @@ void UMission::runMission() {
           case 120:
             ended = mission_appleTree_Identifier(missionState);
             break;
-          case 3:
+          case 1:
             ended = mission_racetrack(missionState);
             break;
-          case 4:
+          case 2:
             ended = mission_circleOfHell(missionState);
             break;
           case 150:
@@ -1594,7 +1594,7 @@ bool UMission::mission_racetrack(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.1");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 > 0.5");  //0.5
 
-      snprintf(lines[line++], MAX_LEN, "vel=2.5, acc=1, edgel=0, white=1 : dist = 7.1");
+      snprintf(lines[line++], MAX_LEN, "vel=2, acc=1, edgel=0, white=1 : dist = 7.1");
 
       snprintf(lines[line++], MAX_LEN, "vel=1, acc=1, edgel=0, white=1 : ir1 < 0.2");
 
@@ -1837,13 +1837,13 @@ bool UMission::mission_circleOfHell(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.7");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1.2");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
@@ -1852,10 +1852,10 @@ bool UMission::mission_circleOfHell(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : xl > 15 ");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.05");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90, ");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=150, xl > 15");
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
 
@@ -1879,7 +1879,7 @@ bool UMission::mission_circleOfHell(int & state) {
 
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl > 15");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn=93");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn=100");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.15");  //0.85
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");;
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 < 0.4");  //0.5
@@ -2029,3 +2029,4 @@ void UMission::closeLog() {
     fclose(logMission);
     logMission = NULL;
   }
+}
