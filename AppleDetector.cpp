@@ -191,25 +191,6 @@ Mat AppleDetector::findOrangeApples(Mat image, bool small) {
 	return output;
 }
 
-Vec3i AppleDetector::getOrangeAppleCoordinates(Mat image) {
-	//Search for big balls first
-	Mat res;
-	res = findOrangeApples(image, false);
-	
-	vector<Vec3f> resultVector = getCircles(res);
-
-	if (resultVector.empty()) {
-		//Search for small balls
-		Mat res = findOrangeApples(image, true);
-		resultVector = getCircles(res);
-	}
-
-	Vec3i c = resultVector[0];
-	//Point center = Point(c[0], c[1]);
-	//int radius = c[2];
-	return c;
-}
-
 float AppleDetector::getDistance(int radius) {
 	//calculation of the focal length in pixels
 	//float f_mm = 3.04;

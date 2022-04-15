@@ -311,28 +311,28 @@ void UMission::runMission() {
           case 1:
             ended = mission_parking(missionState);
             break;
-          case 2:
+          case 70:
             ended = mission_parking_without_closing(missionState);
             break;
           case 2:
             ended = mission_parking_with_closing(missionState);
             break;
-          case 80:
+          case 90:
             ended = mission_skipping_parking(missionState);
             break;
-          case 90:
+          case 100:
             ended = mission_appleTree(missionState);
             break;
-          case 100:
+          case 110:
             ended = mission_find_orange_apple(missionState);
             break;
-          case 2:
+          case 120:
             ended = mission_racetrack(missionState);
             break;
-          case 110:
+          case 130:
             ended = mission_circleOfHell(missionState);
             break;
-          case 120:
+          case 140:
             ended = mission_dummy(missionState);
             break;
           default:
@@ -956,7 +956,7 @@ bool UMission::mission_parking(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.0 : turn=-90");
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
       
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist>0.9");  //0.47
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist>0.95");  //0.47
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.2 : turn=92");
@@ -988,7 +988,7 @@ bool UMission::mission_parking(int & state) {
 
       disableArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.8 : time=6");
+      snprintf(lines[line++], MAX_LEN, "vel=0.8 : time=5");
 
 
       // occupy Robot
@@ -1107,6 +1107,14 @@ bool UMission::mission_parking(int & state) {
 
 
       snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=700, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=2000, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=2000, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time= 0.5");
       
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : ir1 > 0.3");
@@ -1121,6 +1129,87 @@ bool UMission::mission_parking(int & state) {
     } break;
     
     case 19: {
+      if (bridge->event->isEventSet(9)) {
+        state = 20;
+      }
+    } break;
+
+
+    case 20: {
+      int line = 0;
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : time=2");
+
+      snprintf(lines[line++], MAX_LEN, "vel=-0.3 : dist=0.1");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=450, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=-450, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=2000, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=2000, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time= 0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1.7");
+      
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      state = 21;
+      featureCnt = 0;
+    } break;
+    
+    case 21: {
+      if (bridge->event->isEventSet(9)) {
+        state = 999;
+      }
+    } break;
+
+    case 999:
+    default:
+      printf(">> Mission parking ended\n");
+      finished = true;
+      break;
+  }
+  return finished;
+}
+
+bool UMission::mission_parking_without_closing(int & state) {
+  bool finished = false;
+
+  switch (state) {
+    case 0: {
+      printf(">> Starting mission parking\n");
+      // play.say("Starting mission parking", 100);
+
+      state = 10;
+    } break;
+
+    case 10: {
+      int line = 0;
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.45");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-25");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=1");
+
+      // occupy Robot
+      snprintf(lines[line++], MAX_LEN, "event=8, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      state = 11;
+      featureCnt = 0;
+    } break;
+    
+    case 11: {
       if (bridge->event->isEventSet(9)) {
         state = 999;
       }
@@ -1149,10 +1238,9 @@ bool UMission::mission_parking_with_closing(int & state) {
       int line = 0;
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.45");
-
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-25");
-
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=1");
 
