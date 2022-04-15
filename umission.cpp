@@ -24,7 +24,6 @@
 #include "umission.h"
 #include "utime.h"
 #include "ulibpose2pose.h"
-#include "AppleDetector.h"
 #include <lccv.hpp>
 #include <opencv2/opencv.hpp>
 #include "types.h"
@@ -45,6 +44,7 @@ UMission::UMission(UBridge * regbot/*, UCamera * camera*/) {
   th1 = new thread(runObj, this);
 //   play.say("What a nice day for a stroll\n", 100);
 //   sleep(5);
+  //this->CVPosition = CVPositions();
 }
 
 UMission::~UMission() {
@@ -1257,7 +1257,7 @@ bool UMission::mission_parking_with_closing(int & state) {
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-110");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : time=2");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : time=2.5");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=30");
 
@@ -1334,10 +1334,10 @@ bool UMission::mission_parking_with_closing(int & state) {
 
       parkArm();
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.15");
 
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=89");
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
 
       snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
@@ -1587,7 +1587,7 @@ bool UMission::mission_racetrack(int & state) {
     case 10: {
       int line = 0;
 
-    
+      parkArm();
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : ir1 < 0.15");  //ir1 < 0.2
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 < 0.5");  //0.5
@@ -1803,6 +1803,7 @@ bool UMission::mission_appleTree_Identifier(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
+      //this->CVPosition = CVPositions();
       state = 10;
     } break;
     case 10: {
@@ -1829,8 +1830,53 @@ bool UMission::mission_circleOfHell(int & state) {
     case 10: {
       int line = 0;
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-190");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-190");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.2");
+
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-90");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : xl > 15 ");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=.1");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90, ");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+
+      // occupy Robot
+      snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      state = 11;
+      featureCnt = 0;
+    } break;
+    
+    case 11: {
+      if (bridge->event->isEventSet(10)) {
+        state = 12;
+      }
+    } break;
+
+    case 12: {
+      int line = 0;
+
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl > 15");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn=93");
@@ -1879,11 +1925,11 @@ bool UMission::mission_circleOfHell(int & state) {
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
-      state = 11;
+      state = 13;
       featureCnt = 0;
     } break;
     
-    case 11: {
+    case 13: {
       if (bridge->event->isEventSet(10)) {
         state = 999;
       }
@@ -1983,4 +2029,3 @@ void UMission::closeLog() {
     fclose(logMission);
     logMission = NULL;
   }
-}

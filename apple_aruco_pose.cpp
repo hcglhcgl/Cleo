@@ -16,12 +16,18 @@ CVPositions::CVPositions()
 
     this->apple_detector = AppleDetector();
 
+    this->ballFinder = BallFinder();
+
     //Aspect ratio of pi cam 2 = 1.3311
     this->cam.options->video_width=932;
     this->cam.options->video_height=700;
     this->cam.options->framerate=30;
     this->cam.options->verbose=true;
 }
+
+CVPositions::~CVPositions() {
+}
+
 void CVPositions::init(bool show_stream) 
 {
     if (show_stream) {
@@ -130,7 +136,7 @@ pose_t CVPositions::treeID(bool which_color)
         std::cout<<"Searching for tree with white balls"<<std::endl;
     }
     else if (which_color == RED) {
-        std::cout<<"Searching for tree orange balls"<<std::endl;
+        std::cout<<"Searching for tree with orange balls"<<std::endl;
     } 
 
     pose_t apple_pose;

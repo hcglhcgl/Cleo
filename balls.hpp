@@ -1,23 +1,13 @@
 #include "opencv2/opencv.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/core/core.hpp"
+#include "types.h"
 
 #define RED 0
 #define WHITE 1
 
 using namespace cv;
 using namespace std;
-
-struct pose_t
-{
-    bool valid;
-    double x;
-    double y;
-    double z;
-    double th;
-    long num_pose;
-    int id;
-};
 
 struct HSV 
 {

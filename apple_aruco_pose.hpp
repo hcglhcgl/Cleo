@@ -4,6 +4,7 @@
 #include <string>
 #include "aruco.hpp"
 #include "AppleDetector.h"
+#include "balls.hpp"
 
 #include <lccv.hpp>
 #include <opencv2/opencv.hpp>
@@ -22,9 +23,11 @@ class CVPositions
         void shutdown(void);
         pose_t find_aruco_pose(bool which_aruco);
         pose_t find_apple_pose(bool which_color);
+        pose_t treeID(bool which_color);
     private:
         Aruco_finder ar_finder;
         AppleDetector apple_detector;
+        BallFinder ballFinder;
         cv::Mat image;
         cv::Mat output;
         lccv::PiCamera cam;

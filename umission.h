@@ -30,7 +30,7 @@
 #include "ubridge.h"
 #include "ujoy.h"
 #include "uplay.h"
-
+#include "apple_aruco_pose.hpp"
 
 /**
  * Base class, that makes it easier to starta thread
@@ -136,7 +136,6 @@ private:
   bool mission_appleTree(int & state);
   bool mission_find_orange_apple(int & state);
   bool mission_appleTree_Identifier(int & state);
-  
   
   
 private:

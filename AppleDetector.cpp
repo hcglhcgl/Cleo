@@ -9,8 +9,7 @@ using namespace std;
 using namespace cv;
 
 
-AppleDetector::AppleDetector(void) {
-	//vector<Vec3f> circles;
+AppleDetector::AppleDetector() {
 }
 
 vector<Vec3f> AppleDetector::getCircles(Mat tresholded) {

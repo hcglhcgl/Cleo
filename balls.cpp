@@ -20,7 +20,7 @@ BallFinder::BallFinder()
     ballPose.x = 0;
 	ballPose.y = 0;
 	ballPose.z = 0;
-	ballPose.th = 0;
+	ballPose.radius = 0;
     ballPose.id = 0;
     ballPose.valid = false;
     //HSV Values
