@@ -123,3 +123,53 @@ pose_t CVPositions::find_apple_pose(bool which_color)
     shutdown();
     return apple_pose;
 }
+
+pose_t CVPositions::treeID(bool which_color)
+{
+    if (which_color == WHITE) {
+        std::cout<<"Searching for tree with white balls"<<std::endl;
+    }
+    else if (which_color == RED) {
+        std::cout<<"Searching for tree orange balls"<<std::endl;
+    } 
+
+    pose_t apple_pose;
+    int ch=0;
+
+    while(ch!=27){
+        if(!this->cam.getVideoFrame(image,1000)){
+            std::cout<<"Timeout error"<<std::endl;
+        }
+        else {
+            if(which_color == RED) {
+                apple_pose = apple_detector.getOrangeApplePose(image);
+            }
+            
+            if(this->stream) { 
+                if(apple_pose.valid) {
+                    Point center = Point(apple_pose.x, apple_pose.y);
+                    string text = to_string(apple_pose.z);
+
+                    circle(image, center, apple_pose.radius, Scalar(255, 0, 255), 3, LINE_AA);
+                    
+                    putText(image,
+                    text,
+                    Point(10, image.rows / 2), //top-left position
+                    FONT_HERSHEY_DUPLEX,
+                    1.0,
+                    CV_RGB(118, 185, 0), //font color
+                    2);
+                }
+    
+                cv::imshow("Video",image);
+                ch=cv::waitKey(10);
+            }
+
+            if(apple_pose.valid == true) {
+                cout << "x: " << apple_pose.x << " y: " << apple_pose.y << " z: " << apple_pose.z << endl;
+            }
+        }
+    }
+    shutdown();
+    return apple_pose;
+}
