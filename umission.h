@@ -41,6 +41,7 @@ class UMission : public URun
 public:
   /// flag to finish all (pending) missions and RC
   bool finished = false;
+  bool signal_var = false;
 private:
   /**
    * Pointer to communication and data part of this mission application */
@@ -107,6 +108,14 @@ public:
       th1->join();
   }
   /**
+   * Send message to UMission thread*/
+  void signal()
+  {
+    signal_var = true;
+    usleep(11000);
+  }
+
+  /**
    * Print status for mission */
   void printStatus();
   
@@ -137,7 +146,7 @@ private:
   bool mission_find_orange_apple(int & state);
   bool mission_appleTree_Identifier(int & state);
   
-  
+  CVPositions *computerVision;
 private:
   /**
    * Send a number of lines to the REGBOT in a dormant thread, and 

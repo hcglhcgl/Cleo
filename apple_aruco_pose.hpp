@@ -19,7 +19,7 @@ class CVPositions
     public:
         CVPositions();
         ~CVPositions();
-        void init(bool show_stream);
+        void init(bool show_stream,bool save_video);
         void shutdown(void);
         pose_t find_aruco_pose(bool which_aruco);
         pose_t find_apple_pose(bool which_color);
@@ -27,9 +27,13 @@ class CVPositions
     private:
         Aruco_finder ar_finder;
         AppleDetector apple_detector;
-        BallFinder ballFinder;
+        BallFinder ball_finder;
+
         cv::Mat image;
         cv::Mat output;
+
         lccv::PiCamera cam;
+        cv::VideoWriter video;
         bool stream = false;
+        bool save = false;
 };

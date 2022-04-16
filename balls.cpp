@@ -52,9 +52,9 @@ BallFinder::BallFinder()
 
 BallFinder::~BallFinder(){
 
-};
+}
 
-pose_t BallFinder::find_ball(cv::Mat frame, bool show_image, bool red_or_white,bool debug) {
+pose_t BallFinder::find_ball(cv::Mat frame, bool red_or_white,bool debug) {
     Mat cropped;
     Mat blurred;
     Mat mask;
@@ -73,10 +73,6 @@ pose_t BallFinder::find_ball(cv::Mat frame, bool show_image, bool red_or_white,b
     
     //Blurred
     GaussianBlur(cropped,blurred,Size(11, 11),0);
-
-    int width; int height;
-    height = cropped.size[0];
-    width = cropped.size[1];
 
     cvtColor(blurred, HSV, COLOR_BGR2HSV);
 
@@ -208,7 +204,7 @@ Mat BallFinder::imageReducer(Mat image, int percentage,bool reverse, int width_p
     return cropped_image;
 }
 
-pose_t BallFinder::treeID(cv::Mat frame, bool show_image, bool red_or_white,bool debug) {
+pose_t BallFinder::treeID(cv::Mat frame, bool red_or_white,bool debug) {
     Mat cropped;
     Mat blurred;
     Mat mask;
@@ -227,10 +223,6 @@ pose_t BallFinder::treeID(cv::Mat frame, bool show_image, bool red_or_white,bool
     
     //Blurred
     GaussianBlur(cropped,blurred,Size(11, 11),0);
-
-    int width; int height;
-    height = cropped.size[0];
-    width = cropped.size[1];
 
     cvtColor(blurred, HSV, COLOR_BGR2HSV);
 
@@ -327,7 +319,7 @@ pose_t BallFinder::treeID(cv::Mat frame, bool show_image, bool red_or_white,bool
     return ballPose;
 }
 
-pose_t BallFinder::trunkFinder(cv::Mat frame, bool show_image ,bool debug) {
+pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
     Mat cropped;
     Mat blurred;
     Mat mask;
@@ -346,10 +338,6 @@ pose_t BallFinder::trunkFinder(cv::Mat frame, bool show_image ,bool debug) {
     
     //Blurred
     GaussianBlur(cropped,blurred,Size(11, 11),0);
-
-    int width; int height;
-    height = cropped.size[0];
-    width = cropped.size[1];
 
     cvtColor(blurred, HSV, COLOR_BGR2HSV);
 

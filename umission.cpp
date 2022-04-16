@@ -44,7 +44,7 @@ UMission::UMission(UBridge * regbot/*, UCamera * camera*/) {
   th1 = new thread(runObj, this);
 //   play.say("What a nice day for a stroll\n", 100);
 //   sleep(5);
-  //this->CVPosition = CVPositions();
+  computerVision = new CVPositions();
 }
 
 UMission::~UMission() {
@@ -326,13 +326,13 @@ void UMission::runMission() {
           case 110:
             ended = mission_find_orange_apple(missionState);
             break;
-          case 120:
+          case 800:
             ended = mission_appleTree_Identifier(missionState);
             break;
-          case 1:
+          case 130:
             ended = mission_racetrack(missionState);
             break;
-          case 2:
+          case 140:
             ended = mission_circleOfHell(missionState);
             break;
           case 150:
@@ -344,6 +344,7 @@ void UMission::runMission() {
             break;
         }
         if (ended) { // start next mission part in state 0
+          printf("Mission ended\n");
           mission++;
           ended = false;
           missionState = 0;
@@ -1799,15 +1800,27 @@ bool UMission::mission_find_orange_apple(int & state){
 
 bool UMission::mission_appleTree_Identifier(int & state) {
   bool finished = false;
-  CVPositions computerVision = CVPositions();
-
+  
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
+      computerVision->init(false,true);
+
       state = 10;
     } break;
 
     case 10: {
+      printf("Testing tree-finding and video saving\n");
+    
+      pose_t result;
+      while (!signal_var) {
+        result = computerVision->treeID(RED);
+      }
+      signal_var = false;
+      state = 999;
+    } break;
+
+    case 20: {
       int line = 0;
       //Drive to the trees
       snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
@@ -1842,7 +1855,8 @@ bool UMission::mission_appleTree_Identifier(int & state) {
 
     case 999:
     default:
-      printf("Mission dummy ended \n");
+      printf("Mission treeID ended \n");
+      computerVision->shutdown();
       finished = true;
       break;
   }
