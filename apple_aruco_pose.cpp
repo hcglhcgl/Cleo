@@ -55,32 +55,24 @@ void CVPositions::shutdown(void)
 
 pose_t CVPositions::find_aruco_pose(bool which_aruco)
 {
+    /*
     if (which_aruco == WHITE) {
         std::cout<<"Searching for white aruco"<<std::endl;
     }
     else if (which_aruco == RED) {
         std::cout<<"Searching for orange aruco"<<std::endl;
-    } 
+    } */
 
     pose_t aruco_location;
-    int ch=0;
 
-    while(ch!=27){
-        if(!this->cam.getVideoFrame(image,1000)){
-            std::cout<<"Timeout error"<<std::endl;
-        }
-        else{
-            aruco_location = ar_finder.find_aruco(&image,true, WHITE);
-            
-            if(this->stream) { 
-                cv::imshow("Video",image);
-                ch=cv::waitKey(10);
-            }
-
-            if(aruco_location.valid == true) {
-                cout << "ID: " << aruco_location.id << " x: " << aruco_location.x << " y: " << aruco_location.y << " z: " << aruco_location.z << endl;
-            }
-            
+    if(!this->cam.getVideoFrame(image,1000)){
+        std::cout<<"Timeout error"<<std::endl;
+    }
+    else {
+        aruco_location = ar_finder.find_aruco(&image,true, which_aruco);
+        
+        if(this->save) {
+            this->video.write(image);
         }
     }
     return aruco_location;
@@ -152,9 +144,7 @@ pose_t CVPositions::treeID(bool which_color)
         std::cout<<"Timeout error"<<std::endl;
     }
     else {
-        if(which_color == RED) {
-            treeColorPose = ball_finder.treeID(image,which_color,false);
-        }
+        treeColorPose = ball_finder.treeID(image,which_color,false);
             
         if(this->stream) { 
             if(treeColorPose.valid) {
@@ -178,6 +168,9 @@ pose_t CVPositions::treeID(bool which_color)
         }
         
         if(treeColorPose.valid == true) {
+            //Debugging messages
+
+            /*
             cout << "x: " << treeColorPose.x << " y: " << treeColorPose.y << " z: " << treeColorPose.z << endl;
             if (treeColorPose.id == WHITE){
                 cout << "WHITE TREE" << endl;
@@ -188,7 +181,25 @@ pose_t CVPositions::treeID(bool which_color)
             else {
                 cout << "UNABLE TO ID TREE" << endl;
             }
+            */
         }
     }
     return treeColorPose;
+}
+
+pose_t CVPositions::trunkPos(void)
+{
+    pose_t trunk_pos;
+
+    if(!this->cam.getVideoFrame(image,1000)){
+        std::cout<<"Timeout error"<<std::endl;
+    }
+    else {
+        trunk_pos = ball_finder.trunkFinder(image,false);
+
+        if(this->save) {
+            this->video.write(image);
+        }
+    }
+    return trunk_pos;
 }

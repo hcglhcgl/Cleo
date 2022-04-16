@@ -1800,16 +1800,18 @@ bool UMission::mission_find_orange_apple(int & state){
 
 bool UMission::mission_appleTree_Identifier(int & state) {
   bool finished = false;
-  
+
+  static bool currentTreeColor;
+
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
       computerVision->init(false,true);
 
-      state = 10;
+      state = 20;
     } break;
 
-    case 10: {
+    case 1: {
       printf("Testing tree-finding and video saving\n");
     
       pose_t result;
@@ -1822,7 +1824,7 @@ bool UMission::mission_appleTree_Identifier(int & state) {
 
     case 20: {
       int line = 0;
-      //Drive to the trees
+      //Follow line and drive to the first tree (left)
       snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.35, edgel=0, white=1 : lv=0");    //vel=0.25
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
@@ -1833,22 +1835,86 @@ bool UMission::mission_appleTree_Identifier(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-20");
       snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=35");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
-
       //Occupy Robot
-      snprintf(lines[line++], MAX_LEN, "event=11, vel=0 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=20, vel=0 : dist=1");
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
       
-      state = 11;
-      featureCnt = 0;
-      break;
-    }
+      state = 30;
+      printf("Finished state 20");
+    } break;
     
-    case 11: {
-      if (bridge->event->isEventSet(11)) {
+    case 30: {
+      if (bridge->event->isEventSet(20)) {
+        //Determine which color the tree has
+        pose_t result;
+        bool tempColor;
+        bool colorDetermined = false;
+        int colorCertainty = 0;
+
+        while (colorCertainty < 20) {
+          result = computerVision->treeID(RED);
+          tempColor = result.id;
+
+          if (tempColor == colorDetermined) {
+            colorCertainty++;
+          }
+          else {
+            colorCertainty = 0;
+          }
+          colorDetermined = tempColor;
+        }
+        // Now we are sure of the color
+        currentTreeColor = colorDetermined;
+
+        if (currentTreeColor == RED) {
+          printf("Tree is red");
+        }
+        else printf("Tree is white");
+        
+        state = 40;
+      }
+    } break;
+
+
+    case 40: {
+      // Drive to the first tree and grab it
+      bool treeSecured = false;
+      pose_t trunk_pos;
+      while (!signal_var) {
+        trunk_pos = computerVision->trunkPos();
+        if(trunk_pos.valid) {
+          cout << "x: " << trunk_pos.x << " y: " << trunk_pos.y << " z: " << trunk_pos.z << endl;
+        }
+      }
+      signal_var = false;
+      state = 999;
+    } break;
+
+
+    case 50: {
+      pose_t aruco_pos;
+      //Navigate to the correct Aruco!
+      if (currentTreeColor == RED) {
+        printf("Currently searching for RED aruco");
+      }
+      else {
+        printf("Currently searching for WHITE aruco");
+      }
+
+      while (!signal_var) {
+        aruco_pos = computerVision->find_aruco_pose(currentTreeColor);
+        if(aruco_pos.valid) {
+          cout << "x: " << aruco_pos.x << " y: " << aruco_pos.y << " z: " << aruco_pos.z << endl;
+        }
+      }
+      signal_var = false;
+      state = 999;
+    } break;
+
+    case 60: {
+      if (bridge->event->isEventSet(50)) {
         state = 999;
       }
     } break;
