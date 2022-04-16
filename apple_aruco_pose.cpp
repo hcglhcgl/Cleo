@@ -203,3 +203,18 @@ pose_t CVPositions::trunkPos(void)
     }
     return trunk_pos;
 }
+
+void CVPositions::determineMovement(pose_t object_position,bool &go_straight, bool &go_left, bool &go_right)
+{
+    if(object_position.x < 440) {
+        go_left = true;
+    }
+
+    if(object_position.x > 460) {
+        go_right = true;
+    }
+
+    if(object_position.z > 20) {
+        go_straight = true;
+    }
+}

@@ -25,6 +25,7 @@ class CVPositions
         pose_t find_apple_pose(bool which_color);
         pose_t treeID(bool which_color);
         pose_t trunkPos(void);
+        void determineMovement(pose_t object_position, bool &go_straight, bool &go_left, bool &go_right);
     private:
         Aruco_finder ar_finder;
         AppleDetector apple_detector;

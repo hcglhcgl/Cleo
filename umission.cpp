@@ -1803,6 +1803,9 @@ bool UMission::mission_appleTree_Identifier(int & state) {
 
   static bool currentTreeColor;
 
+  // Create the elements that will receive the movement instructions
+  bool straight = false, left = false, right = false;
+
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
@@ -1824,7 +1827,7 @@ bool UMission::mission_appleTree_Identifier(int & state) {
 
     case 20: {
       int line = 0;
-      //Follow line and drive to the first tree (left)
+      //Follow line and drive to the first tree (right)
       snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.35, edgel=0, white=1 : lv=0");    //vel=0.25
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
@@ -1842,7 +1845,6 @@ bool UMission::mission_appleTree_Identifier(int & state) {
       sendAndActivateSnippet(lines, line);
       
       state = 30;
-      printf("Finished state 20");
     } break;
     
     case 30: {
@@ -1853,7 +1855,7 @@ bool UMission::mission_appleTree_Identifier(int & state) {
         bool colorDetermined = false;
         int colorCertainty = 0;
 
-        while (colorCertainty < 20) {
+        while (colorCertainty < 10) {
           result = computerVision->treeID(RED);
           tempColor = result.id;
 
@@ -1869,9 +1871,9 @@ bool UMission::mission_appleTree_Identifier(int & state) {
         currentTreeColor = colorDetermined;
 
         if (currentTreeColor == RED) {
-          printf("Tree is red");
+          printf("Tree is red\n");
         }
-        else printf("Tree is white");
+        else printf("Tree is white\n");
         
         state = 40;
       }
@@ -1879,21 +1881,69 @@ bool UMission::mission_appleTree_Identifier(int & state) {
 
 
     case 40: {
+      int line = 0;
+      //Lower the servo to the correct height
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-650, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=650, vservo=0");
+      //Add a delay for some reason?
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+
+      // occupy Robot
+      snprintf(lines[line++], MAX_LEN, "event=8, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      state = 50;
+    } break;
+
+    case 50: {
       // Drive to the first tree and grab it
       bool treeSecured = false;
       pose_t trunk_pos;
-      while (!signal_var) {
-        trunk_pos = computerVision->trunkPos();
-        if(trunk_pos.valid) {
-          cout << "x: " << trunk_pos.x << " y: " << trunk_pos.y << " z: " << trunk_pos.z << endl;
+      if(bridge->event->isEventSet(8))
+      {
+        printf("Looking for trunk 1\n");
+        while (!signal_var) {
+          printf("Looking for trunk 2\n");
+          trunk_pos = computerVision->trunkPos();
+          if(trunk_pos.valid) {
+            cout << "x: " << trunk_pos.x << " y: " << trunk_pos.y << " z: " << trunk_pos.z << endl;
+            computerVision->determineMovement(trunk_pos,straight,left,right);
+            
+            //Movements
+            int line = 0;
+            // Line to send in case every action is false.
+            snprintf(lines[line++], MAX_LEN, "vel=0.0: time=1.0");
+
+            if(straight){
+              printf("Going straight.\n"); 
+              snprintf(lines[line++], MAX_LEN, "vel=0.2: dist=0.05, time=3.0");
+            }
+            if(left){
+              printf("Going left.\n"); 
+              snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0.0: turn=5, time=3.0");
+            }
+            if(right){
+              printf("Going right.\n");
+              snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0.0: turn=-5, time=3.0");
+            }
+            // occupy Robot
+            snprintf(lines[line++], MAX_LEN, "event=50, vel=0 : dist=1");
+
+            // send lines to REGBOT
+            sendAndActivateSnippet(lines, line);
+
+            while(!bridge->event->isEventSet(50)){
+              usleep(50);
+            }
+          }
         }
+        signal_var = false;
       }
-      signal_var = false;
       state = 999;
     } break;
 
-
-    case 50: {
+    case 60: {
       pose_t aruco_pos;
       //Navigate to the correct Aruco!
       if (currentTreeColor == RED) {
@@ -1913,8 +1963,8 @@ bool UMission::mission_appleTree_Identifier(int & state) {
       state = 999;
     } break;
 
-    case 60: {
-      if (bridge->event->isEventSet(50)) {
+    case 70: {
+      if (bridge->event->isEventSet(60)) {
         state = 999;
       }
     } break;
