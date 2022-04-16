@@ -1798,22 +1798,55 @@ bool UMission::mission_find_orange_apple(int & state){
 }
 
 bool UMission::mission_appleTree_Identifier(int & state) {
-  //bool finished = false;
+  bool finished = false;
+  CVPositions computerVision = CVPositions();
 
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
-      //this->CVPosition = CVPositions();
       state = 10;
     } break;
-    case 10: {
-      
 
+    case 10: {
+      int line = 0;
+      //Drive to the trees
+      snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.35, edgel=0, white=1 : lv=0");    //vel=0.25
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.7");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-20");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=35");
+      snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
+
+      //Occupy Robot
+      snprintf(lines[line++], MAX_LEN, "event=11, vel=0 : dist=1");
+
+      // send lines to REGBOT
+      sendAndActivateSnippet(lines, line);
+      
+      state = 11;
+      featureCnt = 0;
       break;
     }
-  }
+    
+    case 11: {
+      if (bridge->event->isEventSet(11)) {
+        state = 999;
+      }
+    } break;
 
-  return true;
+    case 999:
+    default:
+      printf("Mission dummy ended \n");
+      finished = true;
+      break;
+  }
+  return finished;
 }
 
 bool UMission::mission_circleOfHell(int & state) {
