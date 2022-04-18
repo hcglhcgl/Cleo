@@ -143,6 +143,7 @@ private:
   bool mission_skipping_parking(int & state);
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);
+  bool mission_skipping_circleOfHell(int & state);
   bool mission_dummy(int & state);
   bool mission_appleTree(int & state);
   bool mission_find_orange_apple(int & state);

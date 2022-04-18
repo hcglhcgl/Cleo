@@ -41,11 +41,11 @@ BallFinder::BallFinder()
     whiteHSV.HSV_upper[1] = 80;
     whiteHSV.HSV_upper[2] = 255;
     //Green
-    greenHSV.HSV_lower[0] = 31;
-    greenHSV.HSV_lower[1] = 110;
-    greenHSV.HSV_lower[2] = 70;
+    greenHSV.HSV_lower[0] = 23;
+    greenHSV.HSV_lower[1] = 95;
+    greenHSV.HSV_lower[2] = 7;
 
-    greenHSV.HSV_upper[0] = 49;
+    greenHSV.HSV_upper[0] = 62;
     greenHSV.HSV_upper[1] = 255;
     greenHSV.HSV_upper[2] = 255;
 }
@@ -320,7 +320,8 @@ pose_t BallFinder::treeID(cv::Mat frame, bool red_or_white,bool debug) {
 }
 
 pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
-    Mat cropped;
+    Mat cropped1;
+    Mat cropped2;
     Mat blurred;
     Mat mask;
     Mat mask_eroded;
@@ -329,15 +330,21 @@ pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
 
     stubPose.valid = false;
 
-    //Crop the bottom 70%
-    cropped = imageReducer(frame,30,true,0);
+    //Crop the bottom 65%
+    cropped1 = imageReducer(frame,45,true,0);
     if (debug) {
-        imshow("cropped", cropped);
+        imshow("cropped", cropped1);
+        waitKey(0);
+    }
+    //Crop the top 60%
+    cropped2 = imageReducer(cropped1,40,false,0);
+    if (debug) {
+        imshow("cropped2", cropped2);
         waitKey(0);
     }
     
     //Blurred
-    GaussianBlur(cropped,blurred,Size(11, 11),0);
+    GaussianBlur(cropped2,blurred,Size(11, 11),0);
 
     cvtColor(blurred, HSV, COLOR_BGR2HSV);
 
@@ -351,7 +358,7 @@ pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
     
     // Create a structuring element (SE)
     //Mat element = getStructuringElement(MORPH_RECT, Size(11,11));
-    Mat element = getStructuringElement(MORPH_ELLIPSE, Size(11,11));
+    Mat element = getStructuringElement(MORPH_ELLIPSE, Size(7,7));
 
     Mat erod, dill;
 
@@ -392,8 +399,8 @@ pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
   
     if (idx>-1){
         Point2f center = centers[idx];
-        circle( cropped, center, (int)radius[idx], Scalar(0,255,0), 2 );
-        circle( cropped, center, 3, Scalar(255,0,0), -1 );
+        circle( cropped2, center, (int)radius[idx], Scalar(0,255,0), 2 );
+        circle( cropped2, center, 3, Scalar(255,0,0), -1 );
 
         stubPose.valid = true;
         stubPose.x = center.x;
