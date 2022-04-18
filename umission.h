@@ -125,6 +125,8 @@ public:
   int toMission;
   int mission;
   int missionState;
+  bool new_event_ready = true;
+  int event_nr = 8;
 private:
   /**
    * Mission parts

@@ -1800,7 +1800,6 @@ bool UMission::mission_find_orange_apple(int & state){
 
 bool UMission::mission_appleTree_Identifier(int & state) {
   bool finished = false;
-
   static bool currentTreeColor;
 
   // Create the elements that will receive the movement instructions
@@ -1809,9 +1808,10 @@ bool UMission::mission_appleTree_Identifier(int & state) {
   switch (state) {
     case 0: {
       printf(">> Starting mission identify appletree\n");
+      //play.say("Ball hungry bitch", 100);
       computerVision->init(false,true);
-
       state = 20;
+      
     } break;
 
     case 1: {
@@ -1830,13 +1830,13 @@ bool UMission::mission_appleTree_Identifier(int & state) {
       //Follow line and drive to the first tree (right)
       snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
       snprintf(lines[line++], MAX_LEN, "vel=0.35, edgel=0, white=1 : lv=0");    //vel=0.25
+      //snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0.8 : dist=0.7");
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.7");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
-
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-20");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, tr=0 : turn=-40");
+      //snprintf(lines[line++], MAX_LEN, "vel=0: time=3");
 
       //Occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=20, vel=0 : dist=1");
@@ -1883,64 +1883,119 @@ bool UMission::mission_appleTree_Identifier(int & state) {
     case 40: {
       int line = 0;
       //Lower the servo to the correct height
-      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-650, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=650, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-800, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=800, vservo=0");
       //Add a delay for some reason?
-      snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+      //snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
 
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=8, vel=0 : dist=1");
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
-      state = 50;
+      if(bridge->event->isEventSet(8))
+      {
+        state = 50;
+      }
+      
     } break;
 
-    case 50: {
+    case 50: 
+    {
+      
       // Drive to the first tree and grab it
       bool treeSecured = false;
       pose_t trunk_pos;
-      if(bridge->event->isEventSet(8))
-      {
-        printf("Looking for trunk 1\n");
-        while (!signal_var) {
-          printf("Looking for trunk 2\n");
-          trunk_pos = computerVision->trunkPos();
-          if(trunk_pos.valid) {
-            cout << "x: " << trunk_pos.x << " y: " << trunk_pos.y << " z: " << trunk_pos.z << endl;
-            computerVision->determineMovement(trunk_pos,straight,left,right);
-            
-            //Movements
-            int line = 0;
-            // Line to send in case every action is false.
-            snprintf(lines[line++], MAX_LEN, "vel=0.0: time=1.0");
 
+      printf("Looking for trunk 1\n");
+        
+      if(!signal_var) 
+      {
+        printf("Looking for trunk 2\n");
+
+        trunk_pos = computerVision->trunkPos();
+        if(trunk_pos.valid) 
+        {
+          cout << "x: " << trunk_pos.x << " y: " << trunk_pos.y << " z: " << trunk_pos.z << endl;
+          computerVision->determineMovement(trunk_pos,straight,left,right);
+          
+          //Movements
+          int line = 0;
+          // Line to send in case every action is false.
+          //snprintf(lines[line++], MAX_LEN, "vel=0.0: time=1.0");
+          if(new_event_ready)
+          {
+            new_event_ready = false;
             if(straight){
               printf("Going straight.\n"); 
-              snprintf(lines[line++], MAX_LEN, "vel=0.2: dist=0.05, time=3.0");
+              snprintf(lines[line++], MAX_LEN, "vel=0.8: dist=0.15");
+              snprintf(lines[line++], MAX_LEN, "vel=0.25: dist=0.30");
+              snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.3: turn=50");
+              //snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0: turn=30");
+              //snprintf(lines[line++], MAX_LEN, "vel=0.3: dist=0.2");
+
+              straight = false;
+              event_nr = 7;
+
             }
-            if(left){
-              printf("Going left.\n"); 
-              snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0.0: turn=5, time=3.0");
+            else if(right){
+              printf("Going right.\n"); 
+              snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0: turn=1, time=3.0");
+              right = false;
             }
-            if(right){
-              printf("Going right.\n");
-              snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0.0: turn=-5, time=3.0");
+            else if(left){
+              printf("Going left.\n");
+              snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0: turn=-1, time=3.0");
+              left = false;
             }
             // occupy Robot
-            snprintf(lines[line++], MAX_LEN, "event=50, vel=0 : dist=1");
-
-            // send lines to REGBOT
+            snprintf(lines[line++], MAX_LEN, "event=%d, vel=0 : dist=1", event_nr);
+            printf(lines[line-1]);
             sendAndActivateSnippet(lines, line);
+            
+          }
+          // send lines to REGBOT
+          if(event_nr == 7)
+          {
+            cout << "event: " << event_nr << endl;
+            if(bridge->event->isEventSet(7))
+            {
+              cout << "event: " << event_nr << endl;
+              state = 999;
+            }
 
-            while(!bridge->event->isEventSet(50)){
-              usleep(50);
+          }
+          else if(event_nr == 8)
+          {
+            cout << "event: " << event_nr << endl;
+            if(bridge->event->isEventSet(8))
+            {
+              cout << "event: " << event_nr << endl;
+              line = 0;
+              event_nr = 9;
+              new_event_ready = true;
+            }
+
+          }
+          else if(event_nr == 9)
+          {
+            cout << "event: " << event_nr << endl;
+            if(bridge->event->isEventSet(9))
+            {
+              cout << "event: " << event_nr << endl;
+              line = 0;
+              event_nr = 8;
+              new_event_ready = true;
             }
           }
+
+          
         }
-        signal_var = false;
       }
-      state = 999;
+      else
+      {
+        state = 999;
+      }
     } break;
 
     case 60: {
@@ -1972,6 +2027,7 @@ bool UMission::mission_appleTree_Identifier(int & state) {
     case 999:
     default:
       printf("Mission treeID ended \n");
+      
       computerVision->shutdown();
       finished = true;
       break;
