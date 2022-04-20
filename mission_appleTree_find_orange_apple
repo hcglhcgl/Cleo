@@ -1,0 +1,173 @@
+
+bool UMission::mission_appleTree(int & state){
+  bool finished = false;
+
+  switch (state) {
+    case 0: {
+      printf(">> Starting mission apple tree\n");
+      //play.say("Starting mission apple tree", 100);
+
+      state = 10;
+    } break;
+
+    case 10: {
+      int line = 0;
+      //printf(">> Test of measuring distance\n");
+
+      snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.25, edgel=0, white=1 : lv=0");
+
+      //snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3 : dist= 0.8");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-700, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=700, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-830, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=830, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0.2, tr=0.0 : turn=-1");
+      snprintf(lines[line++], MAX_LEN, "vel=0.25 : dist= 1.5");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist= 0.3");
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-740, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=740, vservo=0");
+      //snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-410, vservo=0");
+      //snprintf(lines[line++], MAX_LEN, "servo=3, pservo=410, vservo=0");
+      
+      snprintf(lines[line++], MAX_LEN, "vel=0.2 : dist= 0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist= 0.31");
+      snprintf(lines[line++], MAX_LEN, "vel=0.3 : dist= 0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist= 0.31");      
+      //snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist= 0.3");
+      //snprintf(lines[line++], MAX_LEN, "vel=0 : time=0.5");
+      //snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-600, vservo=0");
+      //snprintf(lines[line++], MAX_LEN, "servo=3, pservo=600, vservo=0");
+      //snprintf(lines[line++], MAX_LEN, "vel=0 : time=1");
+      //snprintf(lines[line++], MAX_LEN, "vel=0, edgel=0, white=1 : time=1");
+      //snprintf(lines[line++], MAX_LEN, "vel=0.25, edgel=0, white=1 : lv=0");
+
+      snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : dist=1");
+      sendAndActivateSnippet(lines, line);
+      state = 11;
+    } break;
+    case 11: {
+      int line = 0;
+      if (bridge->event->isEventSet(9)) {
+        snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0 : turn=-2");
+        //snprintf(lines[line++], MAX_LEN, "vel=-0.3 : dist= 1");
+        snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist= 2.4"); 
+        snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
+        sendAndActivateSnippet(lines, line);
+        state = 12;
+      }
+    } break;
+    case 12: {
+      if (bridge->event->isEventSet(10)) {
+        state = 999;
+      }
+    } break;
+    case 999:{
+
+    }break;
+      
+    default:
+      printf(">> Camera mission ended\n");
+      finished = true;
+      break;
+  }
+  return finished;
+}
+
+bool UMission::mission_find_orange_apple(int & state){
+  bool finished = false;
+
+  switch (state) {
+    case 0: {
+      printf(">> Starting mission find orange apple\n");
+      //play.say("Starting mission apple tree", 100);
+      lccv::PiCamera cam;
+      cam.options->video_width=932;
+      cam.options->video_height=700;
+      cam.options->framerate=1;
+      cam.options->verbose=true;
+      
+      cam.startVideo();
+      AppleDetector orange_apple;
+      cv::Mat src;
+      cv::Mat image;
+      pose_t apple_pose;
+      bool new_turn_ready = true;
+      int line = 0;
+      int event_nr = 1;
+      int ch=0;
+      while(ch!=27){
+          if(!cam.getVideoFrame(image,1000)){
+              std::cout<<"Timeout error"<<std::endl;
+          }
+          else {
+
+              imwrite("tester.jpg", image);
+              apple_pose = orange_apple.getOrangeApplePose(image);
+              if(apple_pose.valid == true) {
+                  cout << "x: " << apple_pose.x << " y: " << apple_pose.y << " z: " << apple_pose.z << endl;
+                  if(apple_pose.x < 580 && new_turn_ready)
+                  {
+                    cout << "turning right" << endl;
+                    new_turn_ready = false;
+                    snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0 : turn=-1");
+                    snprintf(lines[line++], MAX_LEN, "event=%d, vel=0 : dist=1", event_nr);
+                    ///cout << "event=%d, vel=0 : dist=1", event_nr << endl;
+                    sendAndActivateSnippet(lines, line);
+                  }
+                  else if(apple_pose.x > 590 && new_turn_ready)
+                  {
+                    cout << "turning left" << endl;
+                    new_turn_ready = false;
+                    snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0 : turn=1");
+                    //cout << "event=%d, vel=0 : dist=1", event_nr << endl;
+                    snprintf(lines[line++], MAX_LEN, "event=%d, vel=0 : dist=1", event_nr);
+                    sendAndActivateSnippet(lines, line);
+                  }
+                  if (bridge->event->isEventSet(event_nr)) {
+                    cout << event_nr << endl;
+                    new_turn_ready = true;
+                    line = 0;
+                    event_nr++; 
+                  }
+              }
+
+              
+          }
+      }
+      cam.stopVideo();
+      state = 10;
+    } break;
+
+    case 10: {
+
+    } break;
+    case 11: {
+      int line = 0;
+      if (bridge->event->isEventSet(9)) {
+        snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0 : turn=-2");
+        //snprintf(lines[line++], MAX_LEN, "vel=-0.3 : dist= 1");
+        snprintf(lines[line++], MAX_LEN, "vel=-0.4 : dist= 2.4"); 
+        snprintf(lines[line++], MAX_LEN, "event=10, vel=0 : dist=1");
+        sendAndActivateSnippet(lines, line);
+        state = 12;
+      }
+    } break;
+    case 12: {
+      if (bridge->event->isEventSet(10)) {
+        state = 999;
+      }
+    } break;
+    case 999:{
+
+    }break;
+      
+    default:
+      printf(">> Camera mission ended\n");
+      finished = true;
+      break;
+  }
+  return finished;
+}

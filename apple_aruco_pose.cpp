@@ -206,13 +206,13 @@ pose_t CVPositions::trunkPos(void)
 
 void CVPositions::determineMovement(pose_t object_position,bool &go_straight, bool &go_left, bool &go_right)
 {
-    if(object_position.x < 510) {
+    if(object_position.x < 480) {
         go_left = true;
     }
-    else if(object_position.x > 530) {
+    else if(object_position.x > 500) {
         go_right = true;
     }
-    else if(object_position.x >= 510 &&  object_position.x <= 530){
+    else if(object_position.x >= 480 &&  object_position.x <= 500){
         go_straight = true;
     }
 }

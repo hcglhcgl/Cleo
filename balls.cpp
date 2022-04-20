@@ -45,7 +45,7 @@ BallFinder::BallFinder()
     greenHSV.HSV_lower[1] = 95;
     greenHSV.HSV_lower[2] = 7;
 
-    greenHSV.HSV_upper[0] = 62;
+    greenHSV.HSV_upper[0] = 60;
     greenHSV.HSV_upper[1] = 255;
     greenHSV.HSV_upper[2] = 255;
 }
@@ -182,10 +182,11 @@ Mat BallFinder::imageReducer(Mat image, int percentage,bool reverse, int width_p
 
     int newHeight;
     newHeight = (height/100)*percentage;
+    int newWidth;
+    newWidth = (width/100)*width_percentage;
 
     if (reverse) {
         if (width_percentage != 0) {
-            int newWidth = (width/100)*percentage;
             cropped_image = image(Range(0,newHeight),Range(newWidth,width));
         }
         else {
@@ -194,7 +195,7 @@ Mat BallFinder::imageReducer(Mat image, int percentage,bool reverse, int width_p
     }
     else {
         if (width_percentage != 0) {
-            
+            cropped_image = image(Range(newHeight,height),Range(0,newWidth));
         }
         else {
             cropped_image = image(Range(newHeight,height),Range(0,width));
@@ -300,12 +301,16 @@ pose_t BallFinder::treeID(cv::Mat frame, bool red_or_white,bool debug) {
         if (ballCount == 1) {
             ballPose.id = WHITE;
         }
-        else if (ballCount == 2) {
+        else if (ballCount == 2 || ballCount == 3) {
             ballPose.id = RED;
         }
         else {
             ballPose.id = -1;
         }
+    }
+    else if (ballCount == 0) {
+        ballPose.valid = true;
+        ballPose.id = WHITE;
     }
 
     if(debug) {
@@ -333,11 +338,11 @@ pose_t BallFinder::trunkFinder(cv::Mat frame,bool debug) {
     //Crop the bottom 65%
     cropped1 = imageReducer(frame,45,true,0);
     if (debug) {
-        imshow("cropped", cropped1);
+        imshow("cropped1", cropped1);
         waitKey(0);
     }
     //Crop the top 60%
-    cropped2 = imageReducer(cropped1,40,false,0);
+    cropped2 = imageReducer(cropped1,40,false,80);
     if (debug) {
         imshow("cropped2", cropped2);
         waitKey(0);

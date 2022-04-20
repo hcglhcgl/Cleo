@@ -144,10 +144,9 @@ private:
   bool mission_racetrack(int & state);
   bool mission_circleOfHell(int & state);
   bool mission_skipping_circleOfHell(int & state);
-  bool mission_dummy(int & state);
-  bool mission_appleTree(int & state);
-  bool mission_find_orange_apple(int & state);
+  bool mission_go_to_goal(int & state);
   bool mission_appleTree_Identifier(int & state);
+  bool mission_appleTree_Identifier_Kids_Edition(int & state);
   
   CVPositions *computerVision;
 private:
