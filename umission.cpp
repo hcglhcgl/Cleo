@@ -869,24 +869,26 @@ bool UMission::mission_stairs(int & state) {
       
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : xl > 15");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=235");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.6");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn=30");
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-800, vservo=0");
-      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=800, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=245");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.7");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0.1 : turn=25");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.1");
+
+      snprintf(lines[line++], MAX_LEN, "servo=2, pservo=-750, vservo=0");
+      snprintf(lines[line++], MAX_LEN, "servo=3, pservo=750, vservo=0");
 
       snprintf(lines[line++], MAX_LEN, "vel=0: time=0.5");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.3, edge=0, white=1 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0.45, edge=0, white=1 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0.45, edge=0, white=1 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0.45, edge=0, white=1 : dist=0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0.45, edge=0, white=1 : dist=0.4");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : dist=0.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edgel=0, white=1 : dist=0.4");
 
 
       // occupy Robot
-      snprintf(lines[line++], MAX_LEN, "event=6, vel=0 : dist=1");
+      snprintf(lines[line++], MAX_LEN, "event=9, vel=0 : dist=1");
 
       // send lines to REGBOT
       sendAndActivateSnippet(lines, line);
@@ -897,12 +899,14 @@ bool UMission::mission_stairs(int & state) {
     } break;
 
     case 11: {
-      if (bridge->event->isEventSet(6)) {
+      if (bridge->event->isEventSet(9)) {
         state = 12;
       }
     } break;
 
     case 12: {
+
+      printf("case12\n");
 
       parkArm();
 
@@ -1944,12 +1948,12 @@ bool UMission::mission_appleTree_Identifier_Kids_Edition(int & state) {
         snprintf(lines[line++], MAX_LEN, "vel=0.25: dist=0.45");        
         
         //Drive forward
-        snprintf(lines[line++], MAX_LEN, "vel=0.25: time=11.5");
+        snprintf(lines[line++], MAX_LEN, "vel=0.25: time=13");
         //snprintf(lines[line++], MAX_LEN, "vel=0.25 : ir2 < 0.35");
         //Small bump
-        snprintf(lines[line++], MAX_LEN, "vel=-0.3: dist=0.1");
-        snprintf(lines[line++], MAX_LEN, "vel=0.6: dist=0.22");
-        snprintf(lines[line++], MAX_LEN, "vel=0: time=2");
+        // snprintf(lines[line++], MAX_LEN, "vel=-0.3: dist=0.1");
+        // snprintf(lines[line++], MAX_LEN, "vel=0.6: dist=0.22");
+        // snprintf(lines[line++], MAX_LEN, "vel=0: time=2");
         // occupy Robot
         snprintf(lines[line++], MAX_LEN, "event=11, vel=0 : dist=1");
         sendAndActivateSnippet(lines, line);
@@ -1977,7 +1981,7 @@ bool UMission::mission_appleTree_Identifier_Kids_Edition(int & state) {
         //Turn slightly left
         snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0: turn=3");
         //Go straight back
-        snprintf(lines[line++], MAX_LEN, "vel=-0.40: dist=2");
+        snprintf(lines[line++], MAX_LEN, "vel=-0.40: dist=1.8");
         //Turn back & left
         snprintf(lines[line++], MAX_LEN, "vel=0.3, tr=0.0: turn=90");
         //Lower arm
@@ -2136,11 +2140,11 @@ bool UMission::mission_appleTree_Identifier_Kids_Edition(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.25: dist=0.45");        
       
       //Drive forward
-      snprintf(lines[line++], MAX_LEN, "vel=0.25: time=12.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0.25: time=15");
       //Small bump
-      snprintf(lines[line++], MAX_LEN, "vel=-0.4: dist=0.1");
-      snprintf(lines[line++], MAX_LEN, "vel=0.6: dist=0.22");
-      snprintf(lines[line++], MAX_LEN, "vel=0: time=2");
+      // snprintf(lines[line++], MAX_LEN, "vel=-0.4: dist=0.1");
+      // snprintf(lines[line++], MAX_LEN, "vel=0.6: dist=0.22");
+      // snprintf(lines[line++], MAX_LEN, "vel=0: time=2");
       // occupy Robot
       snprintf(lines[line++], MAX_LEN, "event=5, vel=0 : dist=1");
       sendAndActivateSnippet(lines, line);
@@ -2662,17 +2666,17 @@ bool UMission::mission_skipping_circleOfHell(int & state) {
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : dist=0.2");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edgel=0, white=1 : xl>15");
       
-      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=90");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=98");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, edger=0, white=1 : dist=0.1");
 
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 < 0.5");
       snprintf(lines[line++], MAX_LEN, "vel=0 : ir2 > 0.5");
-      snprintf(lines[line++], MAX_LEN, "vel=0 : time=1.5");
+      snprintf(lines[line++], MAX_LEN, "vel=0 : time=3");
 
       //------- Going to appleTree -----
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.45, edger=0, white=1 : dist=2.4");
+      snprintf(lines[line++], MAX_LEN, "vel=0.5, edger=0, white=1 : dist=2.4");
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-80");
 
@@ -2736,7 +2740,7 @@ bool UMission::mission_go_to_goal(int & state) {
 
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-10");
 
-      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1.7");
+      snprintf(lines[line++], MAX_LEN, "vel=0.4 : dist=1.6");
       snprintf(lines[line++], MAX_LEN, "vel=0.4 : xl>15");
       snprintf(lines[line++], MAX_LEN, "vel=0.4, tr=0 : turn=-30");
 
